@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyLifeOS V0.1</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">MyLifeOS <span>V0.1</span></div>
+      <nav>
+        <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+        <button class="nav-btn" data-view="daily-log">Daily Log</button>
+        <button class="nav-btn" data-view="domains">Six Domains</button>
+        <button class="nav-btn" data-view="review">Daily Review</button>
+      </nav>
+    </aside>
+
+    <main>
+      <section id="dashboard" class="view active">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">MyLifeOS Try Version</p>
+            <h1>Your life, one operating system.</h1>
+            <p>Capture today, review what matters, and keep six life domains visible.</p>
+          </div>
+          <div class="date-card">
+            <strong id="todayDate"></strong>
+            <span id="todayDay"></span>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><span>Logs today</span><strong id="logCount">0</strong></article>
+          <article class="stat-card"><span>Domains touched</span><strong id="domainCount">0/6</strong></article>
+          <article class="stat-card"><span>Spending logged</span><strong id="spendTotal">RM 0.00</strong></article>
+          <article class="stat-card"><span>Review</span><strong id="reviewStatus">Not done</strong></article>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Today's focus</h2><span>Quick capture</span></div>
+          <form id="quickForm" class="quick-form">
+            <input id="quickText" placeholder="What happened? e.g. 6:30 AM wake up" required />
+            <select id="quickDomain">
+              <option>Health</option><option>Wealth</option><option>Career</option><option>Family</option><option>Growth</option><option>Lifestyle</option>
+            </select>
+            <button>Add log</button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Recent activity</h2><button class="text-btn" id="clearLogs">Clear</button></div>
+          <div id="recentLogs" class="timeline empty">No entries yet.</div>
+        </div>
+      </section>
+
+      <section id="daily-log" class="view">
+        <div class="section-title"><div><p class="eyebrow">Capture</p><h1>Daily Log</h1></div></div>
+        <div class="panel">
+          <form id="logForm" class="log-form">
+            <label>Time<input id="logTime" type="time" /></label>
+            <label>Domain<select id="logDomain"><option>Health</option><option>Wealth</option><option>Career</option><option>Family</option><option>Growth</option><option>Lifestyle</option></select></label>
+            <label>Amount (optional)<input id="logAmount" type="number" step="0.01" placeholder="RM" /></label>
+            <label class="full">Event / note<textarea id="logText" rows="4" placeholder="Record what happened..." required></textarea></label>
+            <button class="full">Save entry</button>
+          </form>
+        </div>
+        <div class="panel"><div class="panel-head"><h2>All entries</h2><span id="allLogCount">0 entries</span></div><div id="allLogs" class="timeline empty">No entries yet.</div></div>
+      </section>
+
+      <section id="domains" class="view">
+        <div class="section-title"><div><p class="eyebrow">Balance</p><h1>Six Domains</h1></div></div>
+        <div id="domainGrid" class="domain-grid"></div>
+      </section>
+
+      <section id="review" class="view">
+        <div class="section-title"><div><p class="eyebrow">Reflection</p><h1>Daily Review</h1></div></div>
+        <div class="panel">
+          <form id="reviewForm" class="review-form">
+            <label>Wins<textarea id="reviewWins" rows="3" placeholder="What went well?"></textarea></label>
+            <label>Problems / friction<textarea id="reviewProblems" rows="3" placeholder="What slowed you down?"></textarea></label>
+            <label>Lessons<textarea id="reviewLessons" rows="3" placeholder="What did today teach you?"></textarea></label>
+            <label>Tomorrow's focus<textarea id="reviewTomorrow" rows="3" placeholder="What matters most tomorrow?"></textarea></label>
+            <button>Save review</button>
+          </form>
+          <p class="save-note" id="reviewSaved"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
