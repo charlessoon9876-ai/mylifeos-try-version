@@ -3,61 +3,102 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MyLifeOS V0.1</title>
+  <title>MyLifeOS V0.2</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand">MyLifeOS <span>V0.1</span></div>
+      <div class="brand">MyLifeOS <span>V0.2</span></div>
+      <p class="sidebar-tag">Personal Command Center</p>
       <nav>
-        <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+        <button class="nav-btn active" data-view="dashboard">Command Center</button>
         <button class="nav-btn" data-view="daily-log">Daily Log</button>
         <button class="nav-btn" data-view="domains">Six Domains</button>
+        <button class="nav-btn" data-view="journey">Growth Journey</button>
         <button class="nav-btn" data-view="review">Daily Review</button>
       </nav>
+      <div class="sidebar-flow">Awareness → Logging → Review → Clarity → Planning → Action → Output → Upgrade</div>
     </aside>
 
     <main>
       <section id="dashboard" class="view active">
         <div class="hero">
           <div>
-            <p class="eyebrow">MyLifeOS Try Version</p>
-            <h1>Your life, one operating system.</h1>
-            <p>Capture today, review what matters, and keep six life domains visible.</p>
+            <p class="eyebrow">MyLifeOS Personal Command Center</p>
+            <h1>See where you are. Know what to improve next.</h1>
+            <p>Track your life mode, growth level, six domains, learning journey and next upgrade mission in one place.</p>
           </div>
-          <div class="date-card">
-            <strong id="todayDate"></strong>
-            <span id="todayDay"></span>
-          </div>
+          <div class="date-card"><strong id="todayDate"></strong><span id="todayDay"></span></div>
+        </div>
+
+        <div class="status-grid">
+          <article class="status-card growth-card">
+            <div class="status-label">Growth Ladder</div>
+            <div class="status-main"><span id="growthBadge" class="level-badge">1</span><div><strong id="growthLevel">Bronze · Starter</strong><small id="growthFocus">Build the logging habit</small></div></div>
+            <div class="progress"><span id="growthProgress"></span></div>
+            <div class="progress-note"><span id="growthPercent">0%</span><span>to next level</span></div>
+          </article>
+
+          <article class="status-card mode-card">
+            <div class="status-label">Life Mode</div>
+            <div class="status-main"><span class="mode-dot" id="modeDot"></span><div><strong id="lifeMode">Level 1 · Survival</strong><small>From pressure to choice and freedom</small></div></div>
+            <div class="mode-track" id="modeTrack"></div>
+          </article>
+
+          <article class="status-card score-card">
+            <div class="status-label">Freedom & Balance Index</div>
+            <div class="score-ring"><strong id="freedomScore">50</strong><span>/100</span></div>
+            <small id="freedomLabel">Building foundation</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel mission-panel">
+            <div class="panel-head"><h2>Next Upgrade Mission</h2><span>What matters now</span></div>
+            <div id="nextMission" class="mission-box"></div>
+          </article>
+
+          <article class="panel coach-panel">
+            <div class="panel-head"><h2>AI Coach Insight</h2><span>V0.2 logic preview</span></div>
+            <p id="coachInsight">Start logging across your life domains. MyLifeOS will use your patterns to show what is strong, what is weak, and what to improve next.</p>
+          </article>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Six Domains Snapshot</h2><span>Today's visibility</span></div>
+          <div id="domainSnapshot" class="snapshot-grid"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Learning Journey · Volume 1</h2><span id="journeyPercent">0% complete</span></div>
+          <div id="journeyMini" class="journey-strip"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>Quick Capture</h2><span>Low-friction Daily Log</span></div>
+          <form id="quickForm" class="quick-form">
+            <input id="quickText" placeholder="e.g. 6:30 AM wake up, 30 min run, breakfast RM12" required />
+            <select id="quickDomain"><option>Health</option><option>Wealth</option><option>Career</option><option>Family</option><option>Growth</option><option>Lifestyle</option></select>
+            <button>Add log</button>
+          </form>
         </div>
 
         <div class="stats-grid">
           <article class="stat-card"><span>Logs today</span><strong id="logCount">0</strong></article>
           <article class="stat-card"><span>Domains touched</span><strong id="domainCount">0/6</strong></article>
           <article class="stat-card"><span>Spending logged</span><strong id="spendTotal">RM 0.00</strong></article>
-          <article class="stat-card"><span>Review</span><strong id="reviewStatus">Not done</strong></article>
+          <article class="stat-card"><span>Daily Review</span><strong id="reviewStatus">Not done</strong></article>
         </div>
 
         <div class="panel">
-          <div class="panel-head"><h2>Today's focus</h2><span>Quick capture</span></div>
-          <form id="quickForm" class="quick-form">
-            <input id="quickText" placeholder="What happened? e.g. 6:30 AM wake up" required />
-            <select id="quickDomain">
-              <option>Health</option><option>Wealth</option><option>Career</option><option>Family</option><option>Growth</option><option>Lifestyle</option>
-            </select>
-            <button>Add log</button>
-          </form>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><h2>Recent activity</h2><button class="text-btn" id="clearLogs">Clear</button></div>
+          <div class="panel-head"><h2>Recent Activity</h2><button class="text-btn" id="clearLogs">Clear today</button></div>
           <div id="recentLogs" class="timeline empty">No entries yet.</div>
         </div>
       </section>
 
       <section id="daily-log" class="view">
-        <div class="section-title"><div><p class="eyebrow">Capture</p><h1>Daily Log</h1></div></div>
+        <div class="section-title"><div><p class="eyebrow">Operate</p><h1>Daily Log</h1><p>Raw data becomes the foundation for review, clarity and upgrade.</p></div></div>
         <div class="panel">
           <form id="logForm" class="log-form">
             <label>Time<input id="logTime" type="time" /></label>
@@ -67,16 +108,22 @@
             <button class="full">Save entry</button>
           </form>
         </div>
-        <div class="panel"><div class="panel-head"><h2>All entries</h2><span id="allLogCount">0 entries</span></div><div id="allLogs" class="timeline empty">No entries yet.</div></div>
+        <div class="panel"><div class="panel-head"><h2>Today's Entries</h2><span id="allLogCount">0 entries</span></div><div id="allLogs" class="timeline empty">No entries yet.</div></div>
       </section>
 
       <section id="domains" class="view">
-        <div class="section-title"><div><p class="eyebrow">Balance</p><h1>Six Domains</h1></div></div>
+        <div class="section-title"><div><p class="eyebrow">Assessment</p><h1>Six Domains</h1><p>Growth should improve the whole life, not only one number.</p></div></div>
         <div id="domainGrid" class="domain-grid"></div>
       </section>
 
+      <section id="journey" class="view">
+        <div class="section-title"><div><p class="eyebrow">Learn · Apply · Upgrade</p><h1>MyLifeOS Volume 1</h1><p>Eight modules turn awareness into an operating system.</p></div></div>
+        <div id="journeyGrid" class="journey-grid"></div>
+        <div class="panel philosophy"><strong>MyLifeOS does not only record life.</strong><span>It helps you assess, learn, act, review and continuously upgrade.</span></div>
+      </section>
+
       <section id="review" class="view">
-        <div class="section-title"><div><p class="eyebrow">Reflection</p><h1>Daily Review</h1></div></div>
+        <div class="section-title"><div><p class="eyebrow">Reflection</p><h1>Daily Review</h1><p>Turn raw events into lessons, direction and tomorrow's action.</p></div></div>
         <div class="panel">
           <form id="reviewForm" class="review-form">
             <label>Wins<textarea id="reviewWins" rows="3" placeholder="What went well?"></textarea></label>
