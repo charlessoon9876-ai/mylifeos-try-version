@@ -16,7 +16,6 @@
         <option value="en">English</option>
         <option value="ms">Bahasa Melayu</option>
       </select>
-      <button class="ghost" id="listenPageBtn" type="button">▶ <span data-i18n="listen">听这一页</span></button>
       <button class="ghost" id="shareBtn" type="button">↗ <span data-i18n="share">分享</span></button>
     </nav>
   </header>
@@ -97,7 +96,7 @@
       <div class="reader-toolbar">
         <button class="ghost" data-close-reader>← <span data-i18n="back">返回目录</span></button>
         <div class="reader-actions">
-          <button class="ghost" id="listenChapterBtn">▶ <span data-i18n="listenChapter">听本章</span></button>
+          <button class="ghost" id="listenChapterBtn" type="button">▶ <span data-i18n="listenChapter">听本章</span></button>
           <button class="ghost" id="markReadBtn">✓ <span data-i18n="markRead">标记已读</span></button>
         </div>
       </div>
@@ -113,34 +112,6 @@
       </div>
     </article>
   </div>
-
-  <aside id="audioDock" class="audio-dock" aria-label="Audiobook controls">
-    <div class="audio-dock-main">
-      <div class="audio-icon">◉</div>
-      <div class="audio-meta">
-        <strong id="audioTitle">My Life Origin · Narration</strong>
-        <span id="audioStatus">Best available natural voice</span>
-      </div>
-      <div class="audio-controls">
-        <button id="audioPlayPause" class="audio-btn" type="button" aria-label="Play or pause">▶</button>
-        <button id="audioStop" class="audio-btn subtle" type="button" aria-label="Stop">■</button>
-      </div>
-    </div>
-    <div class="audio-settings">
-      <label>Voice
-        <select id="voiceSelect" aria-label="Narration voice"></select>
-      </label>
-      <label>Speed
-        <select id="audioRate" aria-label="Narration speed">
-          <option value="0.88">0.88×</option>
-          <option value="0.95" selected>0.95×</option>
-          <option value="1">1.00×</option>
-          <option value="1.08">1.08×</option>
-        </select>
-      </label>
-      <span class="audio-note">Device voice · AI studio narration coming next</span>
-    </div>
-  </aside>
 
   <div id="toast" class="toast" role="status"></div>
 
