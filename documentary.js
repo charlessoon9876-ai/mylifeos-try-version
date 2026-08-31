@@ -66,3 +66,40 @@
   link.innerHTML = `<span class="wa-dot"></span><span>WhatsApp 联系 Charles<small>+60 12-983 9876</small></span>`;
   document.body.appendChild(link);
 })();
+
+(() => {
+  const whatsappNumber = '60129839876';
+  const languageSelect = document.getElementById('languageSelect');
+
+  const messages = {
+    zh: amount => `Hi Charles，我来自 My Life Origin 网站。我想支持你的旅程 US$${amount}。请把付款 QR 发给我，谢谢。`,
+    en: amount => `Hi Charles, I came from the My Life Origin website. I would like to support your journey with US$${amount}. Please send me the payment QR. Thank you.`,
+    ms: amount => `Hi Charles, saya datang dari laman My Life Origin. Saya ingin menyokong perjalanan ini dengan US$${amount}. Sila hantarkan QR pembayaran kepada saya. Terima kasih.`
+  };
+
+  document.querySelectorAll('.support-card[data-amount]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const amount = button.dataset.amount || '10';
+      const lang = languageSelect?.value || 'zh';
+      const makeMessage = messages[lang] || messages.zh;
+      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(makeMessage(amount))}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }, true);
+  });
+
+  const note = document.querySelector('.support-note');
+  if (note) {
+    const setNote = () => {
+      const lang = languageSelect?.value || 'zh';
+      note.textContent = lang === 'en'
+        ? 'Choose an amount to message Charles on WhatsApp. Charles will reply with the payment QR.'
+        : lang === 'ms'
+          ? 'Pilih jumlah untuk mesej Charles melalui WhatsApp. Charles akan membalas dengan QR pembayaran.'
+          : '选择支持金额后会直接打开 WhatsApp。Charles 会在 WhatsApp 回复付款 QR。';
+    };
+    languageSelect?.addEventListener('change', () => setTimeout(setNote, 0));
+    setNote();
+  }
+})();
