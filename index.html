@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Book 1 — My Life Origin. The story of how recording a life became My Life OS." />
+  <meta name="description" content="Book 1 — My Life Origin. A true story: 46 years of life, years of tools, 2 years with AI, and 12 months of daily logs." />
   <title>Book 1 — My Life Origin</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="documentary.css" />
 </head>
 <body>
   <header class="topbar">
@@ -21,23 +22,70 @@
   </header>
 
   <main id="top">
-    <section class="hero shell">
+    <section class="hero shell documentary-hero">
       <div class="hero-copy">
-        <p class="kicker">BOOK 1 · MY LIFE ORIGIN</p>
-        <h1 data-i18n="heroTitle">我开始记录人生，后来发现了一个系统。</h1>
-        <p class="hero-sub" data-i18n="heroSub">这是 Charles 如何从零散的人生记录、每日复盘与 AI 对话，一步一步走到 My Life OS 的真实起点。</p>
+        <p class="kicker">A TRUE STORY · BOOK 1</p>
+        <h1 id="docHeroTitle">46年人生。2年与 AI 同行。12个月完整记录。一个 Life OS 开始成形。</h1>
+        <p class="hero-sub" id="docHeroSub">在 AI 进入我的人生以前，我已经用了很多不同工具来记录、整理和管理生活。直到我持续使用 GPT，工具才开始从“记录我”，变成“帮助我理解自己”。</p>
         <div class="hero-buttons">
-          <a class="primary" href="#chapters" data-i18n="startReading">开始阅读</a>
-          <a class="secondary" href="#support" data-i18n="supportJourney">支持这段旅程</a>
+          <a class="primary" href="#journey" id="enterStoryBtn">进入真实故事</a>
+          <a class="secondary" href="#chapters" data-i18n="startReading">开始阅读</a>
         </div>
-        <p class="micro" data-i18n="heroNote">免费阅读 · 多语言 · 可听书 · 持续更新</p>
+        <p class="micro">46 YEARS · YEARS OF TOOLS · 2 YEARS WITH AI · 12 MONTHS DAILY LOG</p>
       </div>
       <div class="book-cover" aria-label="Book cover">
-        <div class="cover-top">BOOK 1</div>
+        <div class="cover-top">BOOK 1 · A TRUE STORY</div>
         <div class="cover-title">MY LIFE<br>ORIGIN</div>
         <div class="cover-line"></div>
-        <div class="cover-sub">From recording life<br>to building a Life OS</div>
+        <div class="cover-sub">46 Years of Life<br>2 Years with AI<br>12 Months Logged</div>
         <div class="cover-author">CHARLES</div>
+      </div>
+    </section>
+
+    <section id="journey" class="documentary-section">
+      <div class="shell">
+        <p class="kicker" id="journeyKicker">THE JOURNEY</p>
+        <h2 class="documentary-title" id="journeyTitle">My Life OS 不是突然出现的。</h2>
+        <p class="documentary-lead" id="journeyLead">它经过了真实人生、不同工具、AI 对话，以及一年完整记录，才慢慢形成。</p>
+        <div class="journey-line">
+          <article><span>01</span><strong id="j1t">46年真实人生</strong><p id="j1d">工作、家庭、健康、金钱、责任、选择与错误。</p></article>
+          <article><span>02</span><strong id="j2t">多年工具摸索</strong><p id="j2d">Notebook、Excel、照片、WhatsApp、Calendar 与不同软件各自解决一部分问题。</p></article>
+          <article><span>03</span><strong id="j3t">2年与 AI / GPT</strong><p id="j3d">最初只是工具，后来逐渐成为整理、复盘与思考的伙伴。</p></article>
+          <article><span>04</span><strong id="j4t">12个月 Daily Log</strong><p id="j4d">连续记录真实生活，让记忆开始变成可以回看的数据。</p></article>
+          <article><span>05</span><strong id="j5t">规律开始出现</strong><p id="j5d">Daily → Weekly → Monthly Review，把碎片连接成模式。</p></article>
+          <article><span>06</span><strong id="j6t">My Life OS</strong><p id="j6d">不是先设计出来，而是从真实生活里长出来。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="year-proof">
+      <div class="shell year-proof-grid">
+        <div class="year-copy">
+          <p class="kicker">365 DAYS · ONE REAL LIFE</p>
+          <h2 id="yearTitle">12个月，不只是日记，而是一整年的生命数据。</h2>
+          <p id="yearText">我记录工作、健康、家庭、金钱、决定、习惯、进展、错误与想法。记录后来变成复盘，复盘开始显现规律。</p>
+          <blockquote id="yearQuote">“最初我只是怕忘记。后来我才发现，持续记录可以让我重新看见自己的人生。”</blockquote>
+        </div>
+        <div class="year-stats" aria-label="Life record statistics">
+          <div><strong>12</strong><span id="statMonths">个月连续记录</span></div>
+          <div><strong>365</strong><span id="statDays">天真实生活</span></div>
+          <div><strong>6</strong><span id="statDomains">个人生领域</span></div>
+          <div><strong>3</strong><span id="statReviews">层复盘：日 / 周 / 月</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="turning-point">
+      <div class="shell turning-grid">
+        <div>
+          <p class="kicker">THE TURNING POINT</p>
+          <h2 id="turnTitle">AI 没有创造我的人生。它帮助我看见原本已经存在的人生。</h2>
+        </div>
+        <div class="three-steps">
+          <div><small>01</small><strong id="toolTitle">Tool</strong><p id="toolText">帮我回答问题、写文字、整理工作。</p></div>
+          <div><small>02</small><strong id="mirrorTitle">Mirror</strong><p id="mirrorText">当记录越来越多，它开始帮助我看见自己的重复模式。</p></div>
+          <div><small>03</small><strong id="systemTitle">System</strong><p id="systemText">过去、现在和未来开始被连接在同一个人生框架里。</p></div>
+        </div>
       </div>
     </section>
 
@@ -47,7 +95,11 @@
       </div>
     </section>
 
-    <section id="chapters" class="shell section">
+    <section id="chapters" class="shell section book-entry">
+      <div class="book-transition">
+        <p class="kicker">NOW ENTER THE BOOK</p>
+        <h2 id="bookEntryTitle">从这里开始，这不再只是一个系统概念，而是一段可以被阅读的人生。</h2>
+      </div>
       <div class="section-head">
         <div>
           <p class="kicker" data-i18n="contentsLabel">CONTENTS</p>
@@ -95,16 +147,12 @@
     <article class="reader-panel book-shell" aria-label="My Life Origin book reader">
       <div class="reader-toolbar book-toolbar">
         <button class="ghost" data-close-reader>← <span data-i18n="back">返回目录</span></button>
-        <div class="book-toolbar-center">
-          <span id="bookChapterLabel">BOOK 1 · MY LIFE ORIGIN</span>
-          <span id="bookPageLabel">1 / 1</span>
-        </div>
+        <div class="book-toolbar-center"><span id="bookChapterLabel">BOOK 1 · MY LIFE ORIGIN</span><span id="bookPageLabel">1 / 1</span></div>
         <div class="reader-actions">
           <button class="ghost" id="listenChapterBtn" type="button">▶ <span data-i18n="listenChapter">听本章</span></button>
           <button class="ghost" id="markReadBtn">✓ <span data-i18n="markRead">标记已读</span></button>
         </div>
       </div>
-
       <div class="book-stage" id="bookStage">
         <button id="bookPrevPage" class="page-turn page-turn-left" type="button" aria-label="Previous page">‹</button>
         <div class="book-spread" id="bookSpread">
@@ -114,32 +162,22 @@
         </div>
         <button id="bookNextPage" class="page-turn page-turn-right" type="button" aria-label="Next page">›</button>
       </div>
-
       <div class="book-bottombar">
         <button id="prevChapter" class="secondary" type="button">← 上一页</button>
         <div class="book-progress-track"><span id="bookProgressBar"></span></div>
         <button id="nextChapter" class="primary" type="button">下一页 →</button>
       </div>
-
       <div class="book-source" aria-hidden="true">
-        <p id="readerKicker"></p>
-        <h2 id="readerTitle"></h2>
-        <p id="readerIntro"></p>
-        <div id="readerBody"></div>
+        <p id="readerKicker"></p><h2 id="readerTitle"></h2><p id="readerIntro"></p><div id="readerBody"></div>
       </div>
     </article>
   </div>
 
   <div id="toast" class="toast" role="status"></div>
-
-  <footer>
-    <div class="shell footer-inner">
-      <div><strong>My Life OS</strong><span>Book 1 — My Life Origin</span></div>
-      <p data-i18n="footerText">一个真实人生，如何慢慢形成一个可以被理解、被复盘、被升级的系统。</p>
-    </div>
-  </footer>
+  <footer><div class="shell footer-inner"><div><strong>My Life OS</strong><span>Book 1 — My Life Origin</span></div><p data-i18n="footerText">一个真实人生，如何慢慢形成一个可以被理解、被复盘、被升级的系统。</p></div></footer>
 
   <script src="app.js"></script>
+  <script src="documentary.js"></script>
   <script src="toc.js"></script>
   <script src="book.js"></script>
   <script src="audio.js"></script>
