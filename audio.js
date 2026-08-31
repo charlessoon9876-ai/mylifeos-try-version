@@ -13,17 +13,17 @@
     zh: {
       names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'],
       lang: 'zh-TW',
-      rate: 0.94
+      rate: 1.08
     },
     en: {
       names: ['Google US English'],
       lang: 'en-US',
-      rate: 0.96
+      rate: 1.10
     },
     ms: {
       names: ['Google Bahasa Indonesia'],
       lang: 'id-ID',
-      rate: 0.95
+      rate: 1.08
     }
   };
 
