@@ -1,1 +1,0 @@
-Fix plan: make browser narration robust for long book chapters by speaking the chapter in smaller sentence chunks instead of one very long SpeechSynthesisUtterance. Preserve play/pause/resume, selected voices and existing rates. Remove this temporary note after implementation.
