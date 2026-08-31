@@ -1,4 +1,15 @@
 (() => {
+  const cleanBookCss = document.createElement('link');
+  cleanBookCss.rel = 'stylesheet';
+  cleanBookCss.href = 'cleanbook.css';
+  document.head.appendChild(cleanBookCss);
+
+  const chapterOneScript = document.createElement('script');
+  chapterOneScript.src = 'chapter1.js';
+  document.head.appendChild(chapterOneScript);
+})();
+
+(() => {
   const select = document.getElementById('languageSelect');
   const copy = {
     zh: {
