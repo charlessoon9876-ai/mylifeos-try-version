@@ -41,3 +41,28 @@
   select?.addEventListener('change',()=>setTimeout(apply,0));
   apply();
 })();
+
+(() => {
+  const whatsappNumber = '60129839876';
+  const message = encodeURIComponent('Hi Charles, I came from the My Life Origin website and would like to know more about My Life OS.');
+  const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .whatsapp-contact{position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:#1f1a16;color:#f7efe4;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.24);font:700 14px/1.1 Inter,system-ui,sans-serif;transition:transform .2s ease,box-shadow .2s ease}
+    .whatsapp-contact:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.3)}
+    .whatsapp-contact .wa-dot{width:10px;height:10px;border-radius:50%;background:#25D366;box-shadow:0 0 0 4px rgba(37,211,102,.14)}
+    .whatsapp-contact small{display:block;font-size:10px;font-weight:600;color:#b9aa97;margin-top:3px;letter-spacing:.04em}
+    @media (max-width:720px){.whatsapp-contact{right:12px;bottom:12px;padding:11px 13px}.whatsapp-contact small{display:none}}
+  `;
+  document.head.appendChild(style);
+
+  const link = document.createElement('a');
+  link.className = 'whatsapp-contact';
+  link.href = url;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.setAttribute('aria-label','Contact Charles on WhatsApp');
+  link.innerHTML = `<span class="wa-dot"></span><span>WhatsApp 联系 Charles<small>+60 12-983 9876</small></span>`;
+  document.body.appendChild(link);
+})();
