@@ -4,6 +4,8 @@
 
   const listenBtn = document.getElementById('listenChapterBtn');
   const languageSelect = document.getElementById('languageSelect');
+  const nextPageBtn = document.getElementById('bookNextPage');
+  const reader = document.getElementById('reader');
 
   let voices = [];
   let queue = [];
@@ -12,29 +14,27 @@
   let stoppedManually = false;
 
   const chosenVoices = {
-    zh: {
-      names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'],
-      lang: 'zh-TW',
-      rate: 1.08
-    },
-    en: {
-      names: ['Google US English'],
-      lang: 'en-US',
-      rate: 1.10
-    },
-    ms: {
-      names: ['Google Bahasa Indonesia'],
-      lang: 'id-ID',
-      rate: 1.08
-    }
+    zh: { names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'], lang: 'zh-TW', rate: 1.08 },
+    en: { names: ['Google US English'], lang: 'en-US', rate: 1.10 },
+    ms: { names: ['Google Bahasa Indonesia'], lang: 'id-ID', rate: 1.08 }
   };
 
   const lower = value => (value || '').toLowerCase();
   const profile = () => chosenVoices[languageSelect?.value] || chosenVoices.zh;
+  const normalize = value => String(value || '').replace(/\s+/g, '').replace(/[“”‘’"']/g, '').trim();
 
-  function refreshVoices() {
-    voices = synth.getVoices() || [];
-  }
+  const style = document.createElement('style');
+  style.textContent = `
+    .readalong-active{
+      background:linear-gradient(180deg,transparent 10%,rgba(214,164,82,.34) 10%,rgba(214,164,82,.34) 92%,transparent 92%);
+      border-radius:.18em;
+      box-shadow:0 0 0 2px rgba(181,126,50,.08);
+      transition:background .18s ease,box-shadow .18s ease;
+    }
+  `;
+  document.head.appendChild(style);
+
+  function refreshVoices() { voices = synth.getVoices() || []; }
 
   function findChosenVoice() {
     const p = profile();
@@ -67,46 +67,90 @@
     listenBtn.setAttribute('aria-pressed', mode === 'pause' ? 'true' : 'false');
   }
 
-  function chapterText() {
-    const reader = document.getElementById('reader');
-    if (!reader?.classList.contains('open')) return '';
-    const title = document.getElementById('readerTitle')?.innerText || '';
-    const intro = document.getElementById('readerIntro')?.innerText || '';
-    const body = document.getElementById('readerBody')?.innerText || '';
-    return [title, intro, body].filter(Boolean).join('\n\n').trim();
+  function sentenceUnits(text) {
+    const source = String(text || '').trim();
+    if (!source) return [];
+    const matches = source.match(/[^。！？!?\.]+[。！？!?\.]?/g) || [source];
+    return matches.map(s => s.trim()).filter(Boolean);
   }
 
-  function splitIntoChunks(text, maxLen = 180) {
-    const clean = String(text || '').replace(/\s+/g, ' ').trim();
-    if (!clean) return [];
+  function buildSentenceQueue() {
+    if (!reader?.classList.contains('open')) return [];
+    const items = [];
+    const title = document.getElementById('readerTitle')?.innerText?.trim();
+    const intro = document.getElementById('readerIntro')?.innerText?.trim();
+    if (title) items.push(title);
+    if (intro) items.push(...sentenceUnits(intro));
 
-    const sentences = clean.match(/[^。！？!?\.]+[。！？!?\.]?/g) || [clean];
-    const chunks = [];
-    let current = '';
-
-    sentences.forEach(sentence => {
-      const part = sentence.trim();
-      if (!part) return;
-
-      if ((current + part).length <= maxLen) {
-        current += part;
-        return;
-      }
-
-      if (current.trim()) chunks.push(current.trim());
-
-      if (part.length <= maxLen) {
-        current = part;
-      } else {
-        for (let i = 0; i < part.length; i += maxLen) {
-          chunks.push(part.slice(i, i + maxLen));
-        }
-        current = '';
-      }
+    document.querySelectorAll('#readerBody p').forEach(p => {
+      const text = p.innerText.trim();
+      if (!text) return;
+      const units = sentenceUnits(text);
+      if (units.length) items.push(...units);
+      else items.push(text);
     });
+    return items;
+  }
 
-    if (current.trim()) chunks.push(current.trim());
-    return chunks;
+  function unwrapHighlights() {
+    document.querySelectorAll('.readalong-active').forEach(span => {
+      span.replaceWith(document.createTextNode(span.textContent || ''));
+    });
+  }
+
+  function wrapSentenceInElement(el, sentence) {
+    const raw = el.textContent || '';
+    const wanted = normalize(sentence);
+    if (!wanted || !normalize(raw).includes(wanted)) return false;
+
+    const compactRaw = normalize(raw);
+    const compactWanted = wanted;
+    const compactIndex = compactRaw.indexOf(compactWanted);
+    if (compactIndex < 0) return false;
+
+    let start = -1;
+    let end = -1;
+    let compactPos = 0;
+    for (let i = 0; i < raw.length; i++) {
+      const ch = raw[i];
+      if (/\s/.test(ch) || /[“”‘’"']/.test(ch)) continue;
+      if (compactPos === compactIndex && start < 0) start = i;
+      compactPos += 1;
+      if (compactPos === compactIndex + compactWanted.length) { end = i + 1; break; }
+    }
+    if (start < 0 || end < 0) return false;
+
+    el.textContent = '';
+    el.appendChild(document.createTextNode(raw.slice(0, start)));
+    const span = document.createElement('span');
+    span.className = 'readalong-active';
+    span.textContent = raw.slice(start, end);
+    el.appendChild(span);
+    el.appendChild(document.createTextNode(raw.slice(end)));
+    return true;
+  }
+
+  function tryHighlightVisible(sentence) {
+    unwrapHighlights();
+    const candidates = document.querySelectorAll('#paperLeft h2,#paperLeft .paper-intro,#paperLeft .paper-copy p,#paperRight h2,#paperRight .paper-intro,#paperRight .paper-copy p');
+    for (const el of candidates) {
+      if (wrapSentenceInElement(el, sentence)) return true;
+    }
+    return false;
+  }
+
+  function focusSentence(sentence) {
+    if (!reader?.classList.contains('open')) return;
+    const chapterBefore = document.getElementById('bookChapterLabel')?.textContent || '';
+    if (tryHighlightVisible(sentence)) return;
+
+    for (let i = 0; i < 8; i++) {
+      if (!nextPageBtn || nextPageBtn.disabled) break;
+      nextPageBtn.click();
+      const chapterAfter = document.getElementById('bookChapterLabel')?.textContent || '';
+      if (chapterBefore && chapterAfter && chapterAfter !== chapterBefore) break;
+      if (tryHighlightVisible(sentence)) return;
+    }
   }
 
   function stop() {
@@ -115,37 +159,36 @@
     queue = [];
     queueIndex = 0;
     activeUtterance = null;
+    unwrapHighlights();
     setButton('listen');
   }
 
   function speakNext() {
     if (stoppedManually) return;
-
     if (queueIndex >= queue.length) {
       queue = [];
       queueIndex = 0;
       activeUtterance = null;
+      unwrapHighlights();
       setButton('listen');
       return;
     }
 
+    const text = queue[queueIndex];
+    focusSentence(text);
+
     const p = profile();
     const voice = findChosenVoice();
-    const utter = new SpeechSynthesisUtterance(queue[queueIndex]);
-
-    if (voice) {
-      utter.voice = voice;
-      utter.lang = voice.lang;
-    } else {
-      utter.lang = p.lang;
-    }
-
+    const utter = new SpeechSynthesisUtterance(text);
+    if (voice) { utter.voice = voice; utter.lang = voice.lang; }
+    else utter.lang = p.lang;
     utter.rate = p.rate;
     utter.pitch = 1.02;
     utter.volume = 1;
 
     utter.onstart = () => {
       activeUtterance = utter;
+      focusSentence(text);
       setButton('pause');
     };
 
@@ -153,30 +196,26 @@
       if (stoppedManually) return;
       queueIndex += 1;
       activeUtterance = null;
-      window.setTimeout(speakNext, 25);
+      window.setTimeout(speakNext, 18);
     };
 
     utter.onerror = event => {
       if (stoppedManually || event.error === 'interrupted' || event.error === 'canceled') return;
       queueIndex += 1;
       activeUtterance = null;
-      window.setTimeout(speakNext, 25);
+      window.setTimeout(speakNext, 18);
     };
 
     synth.speak(utter);
   }
 
   function speakChapter() {
-    const text = chapterText();
-    if (!text) {
-      setButton('listen');
-      return;
-    }
-
+    const items = buildSentenceQueue();
+    if (!items.length) { setButton('listen'); return; }
     stoppedManually = false;
     synth.cancel();
     refreshVoices();
-    queue = splitIntoChunks(text, 180);
+    queue = items;
     queueIndex = 0;
     speakNext();
   }
@@ -184,19 +223,16 @@
   listenBtn?.addEventListener('click', event => {
     event.preventDefault();
     event.stopImmediatePropagation();
-
     if (synth.speaking && !synth.paused) {
       synth.pause();
       setButton('resume');
       return;
     }
-
     if (synth.paused) {
       synth.resume();
       setButton('pause');
       return;
     }
-
     speakChapter();
   }, true);
 
