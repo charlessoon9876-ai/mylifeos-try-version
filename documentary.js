@@ -103,3 +103,23 @@
     setNote();
   }
 })();
+
+(() => {
+  const image = document.querySelector('.image-book-cover img');
+  if (!image) return;
+
+  const source = image.getAttribute('src');
+  if (!source) return;
+
+  fetch(source, { cache: 'no-store' })
+    .then(response => response.text())
+    .then(text => {
+      const encoded = text.trim();
+      if (encoded.startsWith('/9j/')) {
+        image.src = `data:image/jpeg;base64,${encoded}`;
+      } else if (encoded.startsWith('iVBOR')) {
+        image.src = `data:image/png;base64,${encoded}`;
+      }
+    })
+    .catch(() => {});
+})();
