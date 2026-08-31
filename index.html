@@ -90,25 +90,42 @@
     </section>
   </main>
 
-  <div id="reader" class="reader" aria-hidden="true">
+  <div id="reader" class="reader book-reader" aria-hidden="true">
     <div class="reader-backdrop" data-close-reader></div>
-    <article class="reader-panel">
-      <div class="reader-toolbar">
+    <article class="reader-panel book-shell" aria-label="My Life Origin book reader">
+      <div class="reader-toolbar book-toolbar">
         <button class="ghost" data-close-reader>← <span data-i18n="back">返回目录</span></button>
+        <div class="book-toolbar-center">
+          <span id="bookChapterLabel">BOOK 1 · MY LIFE ORIGIN</span>
+          <span id="bookPageLabel">1 / 1</span>
+        </div>
         <div class="reader-actions">
           <button class="ghost" id="listenChapterBtn" type="button">▶ <span data-i18n="listenChapter">听本章</span></button>
           <button class="ghost" id="markReadBtn">✓ <span data-i18n="markRead">标记已读</span></button>
         </div>
       </div>
-      <div class="reader-content">
-        <p id="readerKicker" class="kicker"></p>
-        <h2 id="readerTitle"></h2>
-        <p id="readerIntro" class="reader-intro"></p>
-        <div id="readerBody" class="reader-body"></div>
-        <div class="reader-nav">
-          <button id="prevChapter" class="secondary">← <span data-i18n="previous">上一章</span></button>
-          <button id="nextChapter" class="primary"><span data-i18n="next">下一章</span> →</button>
+
+      <div class="book-stage" id="bookStage">
+        <button id="bookPrevPage" class="page-turn page-turn-left" type="button" aria-label="Previous page">‹</button>
+        <div class="book-spread" id="bookSpread">
+          <section class="paper-page paper-left" id="paperLeft" aria-live="polite"></section>
+          <div class="book-gutter" aria-hidden="true"></div>
+          <section class="paper-page paper-right" id="paperRight"></section>
         </div>
+        <button id="bookNextPage" class="page-turn page-turn-right" type="button" aria-label="Next page">›</button>
+      </div>
+
+      <div class="book-bottombar">
+        <button id="prevChapter" class="secondary" type="button">← 上一页</button>
+        <div class="book-progress-track"><span id="bookProgressBar"></span></div>
+        <button id="nextChapter" class="primary" type="button">下一页 →</button>
+      </div>
+
+      <div class="book-source" aria-hidden="true">
+        <p id="readerKicker"></p>
+        <h2 id="readerTitle"></h2>
+        <p id="readerIntro"></p>
+        <div id="readerBody"></div>
       </div>
     </article>
   </div>
@@ -123,6 +140,7 @@
   </footer>
 
   <script src="app.js"></script>
+  <script src="book.js"></script>
   <script src="audio.js"></script>
 </body>
 </html>
