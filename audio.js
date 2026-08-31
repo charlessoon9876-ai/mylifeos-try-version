@@ -2,8 +2,7 @@
   const synth = window.speechSynthesis;
   if (!synth) return;
 
-  const voiceSelect = document.getElementById('voiceSelect');
-  const rateSelect = document.getElementById('audioRate');
+  const dock = document.getElementById('audioDock');
   const playPauseBtn = document.getElementById('audioPlayPause');
   const stopBtn = document.getElementById('audioStop');
   const statusEl = document.getElementById('audioStatus');
@@ -14,53 +13,70 @@
   let currentText = '';
   let currentTitle = 'My Life Origin · Narration';
   let currentUtterance = null;
-  let paused = false;
 
-  const langMap = { zh: 'zh', en: 'en', ms: 'ms' };
-  const naturalHints = [
-    'xiaoxiao','xiaoyi','yunxi','ting-ting','sin-ji','samantha','ava','serena','karen','moira','aria','jenny','sonia','natasha','google','natural','premium','enhanced'
-  ];
-  const lower = s => (s || '').toLowerCase();
+  const languageProfiles = {
+    zh: {
+      prefix: 'zh', fallback: 'zh-CN', rate: 0.92,
+      preferred: ['xiaoxiao','xiaoyi','hsiaochen','ting-ting','sin-ji','meijia','huihui','yaoyao','mandarin'],
+      natural: ['natural','premium','enhanced','online']
+    },
+    en: {
+      prefix: 'en', fallback: 'en-US', rate: 0.95,
+      preferred: ['ava','jenny','aria','sonia','samantha','serena','karen','moira','natasha','zira'],
+      natural: ['natural','premium','enhanced','online']
+    },
+    ms: {
+      prefix: 'ms', fallback: 'ms-MY', rate: 0.94,
+      preferred: ['yasmin','malay','bahasa melayu'],
+      natural: ['natural','premium','enhanced','online']
+    }
+  };
 
-  function scoreVoice(v, target) {
+  const lower = value => (value || '').toLowerCase();
+  const profile = () => languageProfiles[languageSelect?.value] || languageProfiles.zh;
+
+  function scoreVoice(voice) {
+    const p = profile();
+    const name = lower(voice.name);
+    const lang = lower(voice.lang);
     let score = 0;
-    const name = lower(v.name);
-    const lang = lower(v.lang);
-    if (lang.startsWith(target)) score += 60;
-    if (v.localService === false) score += 8;
-    naturalHints.forEach((hint, i) => { if (name.includes(hint)) score += 30 - Math.min(i, 20); });
-    if (name.includes('compact')) score -= 12;
+
+    if (lang.startsWith(p.prefix)) score += 100;
+    if (lang === lower(p.fallback)) score += 18;
+
+    p.preferred.forEach((hint, index) => {
+      if (name.includes(hint)) score += 55 - Math.min(index * 3, 24);
+    });
+    p.natural.forEach((hint, index) => {
+      if (name.includes(hint)) score += 35 - index * 4;
+    });
+
+    if (name.includes('microsoft')) score += 14;
+    if (name.includes('apple')) score += 12;
+    if (name.includes('google')) score += 4;
+    if (name.includes('compact')) score -= 25;
+    if (name.includes('male')) score -= 10;
+
     return score;
   }
 
   function preferredVoice() {
-    const target = langMap[languageSelect?.value] || 'zh';
-    const compatible = voices.filter(v => lower(v.lang).startsWith(target));
+    const p = profile();
+    const compatible = voices.filter(v => lower(v.lang).startsWith(p.prefix));
     const pool = compatible.length ? compatible : voices;
-    return [...pool].sort((a,b) => scoreVoice(b,target) - scoreVoice(a,target))[0] || null;
+    return [...pool].sort((a, b) => scoreVoice(b) - scoreVoice(a))[0] || null;
   }
 
-  function populateVoices() {
+  function refreshVoices() {
     voices = synth.getVoices();
-    if (!voiceSelect || !voices.length) return;
-    const target = langMap[languageSelect?.value] || 'zh';
-    const previous = voiceSelect.value;
-    const sorted = [...voices].sort((a,b) => scoreVoice(b,target) - scoreVoice(a,target));
-    voiceSelect.innerHTML = sorted.map(v => `<option value="${v.voiceURI.replace(/"/g,'&quot;')}">${v.name} · ${v.lang}</option>`).join('');
-    const preferred = preferredVoice();
-    if (previous && voices.some(v => v.voiceURI === previous)) voiceSelect.value = previous;
-    else if (preferred) voiceSelect.value = preferred.voiceURI;
     updateVoiceStatus();
   }
 
-  function selectedVoice() {
-    return voices.find(v => v.voiceURI === voiceSelect?.value) || preferredVoice();
-  }
-
-  function updateVoiceStatus() {
-    const v = selectedVoice();
+  function updateVoiceStatus(prefix = '') {
     if (!statusEl) return;
-    statusEl.textContent = v ? `${v.name} · ${v.lang}` : 'Best available natural voice';
+    const voice = preferredVoice();
+    const label = voice ? `${voice.name} · ${voice.lang}` : 'Best available voice';
+    statusEl.textContent = prefix ? `${prefix} · ${label}` : `Auto voice · ${label}`;
   }
 
   function chapterText() {
@@ -70,7 +86,7 @@
       const title = document.getElementById('readerTitle')?.innerText || '';
       const intro = document.getElementById('readerIntro')?.innerText || '';
       const body = document.getElementById('readerBody')?.innerText || '';
-      currentTitle = `${kicker} · ${title}`.replace(/^ · | · $/g,'');
+      currentTitle = `${kicker} · ${title}`.replace(/^ · | · $/g, '');
       return [title, intro, body].filter(Boolean).join('. ');
     }
     currentTitle = 'Book 1 · My Life Origin';
@@ -79,76 +95,118 @@
     return `${hero}. ${manifesto}`;
   }
 
-  function stop() {
+  function showDock() {
+    dock?.classList.add('active');
+  }
+
+  function hideDock() {
+    dock?.classList.remove('active');
+  }
+
+  function stop({ hide = true } = {}) {
     synth.cancel();
     currentUtterance = null;
-    paused = false;
     if (playPauseBtn) playPauseBtn.textContent = '▶';
-    if (statusEl) updateVoiceStatus();
+    updateVoiceStatus();
+    if (hide) hideDock();
   }
 
   function speak(text) {
-    stop();
-    currentText = (text || '').replace(/\s+/g,' ').trim();
+    stop({ hide: false });
+    currentText = (text || '').replace(/\s+/g, ' ').trim();
     if (!currentText) return;
+
+    const p = profile();
+    const voice = preferredVoice();
     const utter = new SpeechSynthesisUtterance(currentText);
-    const voice = selectedVoice();
+
     if (voice) {
       utter.voice = voice;
       utter.lang = voice.lang;
     } else {
-      utter.lang = languageSelect?.value === 'en' ? 'en-US' : languageSelect?.value === 'ms' ? 'ms-MY' : 'zh-CN';
+      utter.lang = p.fallback;
     }
-    utter.rate = Number(rateSelect?.value || 0.95);
+
+    utter.rate = p.rate;
     utter.pitch = 1.02;
     utter.volume = 1;
+
     utter.onstart = () => {
       currentUtterance = utter;
+      showDock();
       if (titleEl) titleEl.textContent = currentTitle;
-      if (statusEl) statusEl.textContent = `Playing · ${voice ? voice.name : utter.lang}`;
+      updateVoiceStatus('Playing');
       if (playPauseBtn) playPauseBtn.textContent = 'Ⅱ';
     };
+
     utter.onend = () => {
       currentUtterance = null;
-      paused = false;
       if (playPauseBtn) playPauseBtn.textContent = '▶';
-      updateVoiceStatus();
+      updateVoiceStatus('Finished');
+      setTimeout(hideDock, 1200);
     };
+
     utter.onerror = () => {
       currentUtterance = null;
-      paused = false;
       if (playPauseBtn) playPauseBtn.textContent = '▶';
       if (statusEl) statusEl.textContent = 'Narration unavailable on this device';
+      setTimeout(hideDock, 1800);
     };
+
+    showDock();
     synth.speak(utter);
   }
 
-  document.addEventListener('click', e => {
-    const button = e.target.closest('#listenPageBtn, #listenChapterBtn');
+  document.addEventListener('click', event => {
+    const button = event.target.closest('#listenPageBtn, #listenChapterBtn');
     if (!button) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
+    event.preventDefault();
+    event.stopImmediatePropagation();
     speak(chapterText());
   }, true);
 
   playPauseBtn?.addEventListener('click', () => {
     if (synth.speaking && !synth.paused) {
-      synth.pause(); paused = true; playPauseBtn.textContent = '▶';
+      synth.pause();
+      playPauseBtn.textContent = '▶';
       if (statusEl) statusEl.textContent = 'Paused';
     } else if (synth.paused) {
-      synth.resume(); paused = false; playPauseBtn.textContent = 'Ⅱ';
-      const v = selectedVoice();
-      if (statusEl) statusEl.textContent = `Playing · ${v ? v.name : ''}`;
+      synth.resume();
+      playPauseBtn.textContent = 'Ⅱ';
+      updateVoiceStatus('Playing');
     } else {
       speak(currentText || chapterText());
     }
   });
 
-  stopBtn?.addEventListener('click', stop);
-  voiceSelect?.addEventListener('change', () => { updateVoiceStatus(); if (synth.speaking) speak(currentText); });
-  rateSelect?.addEventListener('change', () => { if (synth.speaking) speak(currentText); });
-  languageSelect?.addEventListener('change', () => { stop(); populateVoices(); });
+  stopBtn?.addEventListener('click', () => stop());
+  languageSelect?.addEventListener('change', () => {
+    stop();
+    setTimeout(refreshVoices, 50);
+  });
 
-  synth.onvoiceschanged = populateVoices;
-  populateVoices();
+  synth.onvoiceschanged = refreshVoices;
+  refreshVoices();
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .audio-dock{display:none!important;left:auto!important;right:18px!important;bottom:18px!important;transform:none!important;width:min(390px,calc(100% - 28px))!important;border-radius:18px!important}
+    .audio-dock.active{display:block!important}
+    .audio-settings{display:none!important}
+    .audio-dock-main{padding:11px 12px!important;gap:10px!important}
+    .audio-icon{width:34px!important;height:34px!important}
+    .audio-meta strong{font-size:13px!important}
+    .audio-meta span{font-size:11px!important}
+    .audio-btn{width:36px!important;height:36px!important}
+    .reader-content{padding-bottom:105px!important}
+    footer{padding-bottom:36px!important}
+    @media(max-width:640px){
+      .audio-dock{right:10px!important;bottom:10px!important;width:calc(100% - 20px)!important;border-radius:16px!important}
+      .audio-icon{display:none!important}
+      .audio-dock-main{grid-template-columns:1fr auto!important}
+      .reader-content{padding-bottom:100px!important}
+      footer{padding-bottom:36px!important}
+    }
+  `;
+  document.head.appendChild(style);
 })();
