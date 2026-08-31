@@ -1,0 +1,1 @@
+This branch fixes long chapter narration by chunking SpeechSynthesisUtterance playback into short segments, preserving pause/resume and the selected voice/rate profiles.
