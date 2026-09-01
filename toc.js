@@ -95,9 +95,8 @@
   }
 })();
 
-(() => {
+setTimeout(() => {
   const script = document.createElement('script');
   script.src = 'continuous-reader.js';
-  script.defer = true;
   document.body.appendChild(script);
-})();
+}, 0);
