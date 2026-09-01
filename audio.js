@@ -14,14 +14,15 @@
   let stoppedManually = false;
 
   const chosenVoices = {
-    zh: { names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'], lang: 'zh-TW', rate: 1.08 },
-    en: { names: ['Google US English'], lang: 'en-US', rate: 1.10 },
-    ms: { names: ['Google Bahasa Indonesia'], lang: 'id-ID', rate: 1.08 }
+    zh: { names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'], lang: 'zh-TW', rate: 1.0 },
+    en: { names: ['Google US English'], lang: 'en-US', rate: 1.0 },
+    ms: { names: ['Google Bahasa Indonesia'], lang: 'id-ID', rate: 1.0 }
   };
 
   const lower = value => (value || '').toLowerCase();
   const profile = () => chosenVoices[languageSelect?.value] || chosenVoices.zh;
   const normalize = value => String(value || '').replace(/\s+/g, '').replace(/[“”‘’"']/g, '').trim();
+  const emit = name => window.dispatchEvent(new CustomEvent(name));
 
   const style = document.createElement('style');
   style.textContent = `
@@ -161,6 +162,7 @@
     activeUtterance = null;
     unwrapHighlights();
     setButton('listen');
+    emit('mylife:narration-end');
   }
 
   function speakNext() {
@@ -171,6 +173,7 @@
       activeUtterance = null;
       unwrapHighlights();
       setButton('listen');
+      emit('mylife:narration-end');
       return;
     }
 
@@ -190,6 +193,7 @@
       activeUtterance = utter;
       focusSentence(text);
       setButton('pause');
+      emit('mylife:narration-start');
     };
 
     utter.onend = () => {
@@ -217,6 +221,7 @@
     refreshVoices();
     queue = items;
     queueIndex = 0;
+    emit('mylife:narration-start');
     speakNext();
   }
 
@@ -226,11 +231,13 @@
     if (synth.speaking && !synth.paused) {
       synth.pause();
       setButton('resume');
+      emit('mylife:narration-pause');
       return;
     }
     if (synth.paused) {
       synth.resume();
       setButton('pause');
+      emit('mylife:narration-start');
       return;
     }
     speakChapter();
