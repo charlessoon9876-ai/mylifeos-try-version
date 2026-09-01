@@ -1,7 +1,7 @@
 (() => {
   const track = new Audio('mylife-origin-bgm.mp3.mp3');
   track.loop = true;
-  track.volume = 0.15;
+  track.volume = 0.30;
   track.preload = 'auto';
 
   let userEnabled = true;
