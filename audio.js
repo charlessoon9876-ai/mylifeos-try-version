@@ -14,9 +14,9 @@
   let stoppedManually = false;
 
   const chosenVoices = {
-    zh: { names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'], lang: 'zh-TW', rate: 1.0 },
-    en: { names: ['Google US English'], lang: 'en-US', rate: 1.0 },
-    ms: { names: ['Google Bahasa Indonesia'], lang: 'id-ID', rate: 1.0 }
+    zh: { names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'], lang: 'zh-TW', rate: 0.95 },
+    en: { names: ['Google US English'], lang: 'en-US', rate: 0.95 },
+    ms: { names: ['Google Bahasa Indonesia'], lang: 'id-ID', rate: 0.95 }
   };
 
   const lower = value => (value || '').toLowerCase();
