@@ -5,9 +5,9 @@
   if (!grid || !section || typeof chapterContent === 'undefined') return;
 
   const labels = {
-    zh: { title: '《Book 1 — My Life Origin》', structure: '12章主结构', hint: '点击章节进入翻页阅读' },
-    en: { title: '《Book 1 — My Life Origin》', structure: '12-Chapter Structure', hint: 'Select a chapter to begin page-by-page reading' },
-    ms: { title: '《Book 1 — My Life Origin》', structure: 'Struktur 12 Bab', hint: 'Pilih bab untuk mula membaca halaman demi halaman' }
+    zh: { title: '《Book 1 — My Life Origin》', structure: '12章主结构', hint: '点击章节进入连续向下阅读' },
+    en: { title: '《Book 1 — My Life Origin》', structure: '12-Chapter Structure', hint: 'Select a chapter to begin continuous scroll reading' },
+    ms: { title: '《Book 1 — My Life Origin》', structure: 'Struktur 12 Bab', hint: 'Pilih bab untuk membaca secara berterusan dengan skrol' }
   };
 
   function currentLang() {
@@ -93,4 +93,11 @@
       observer.observe(grid, { childList: true });
     }, 50);
   }
+})();
+
+(() => {
+  const script = document.createElement('script');
+  script.src = 'continuous-reader.js';
+  script.defer = true;
+  document.body.appendChild(script);
 })();
