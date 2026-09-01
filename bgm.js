@@ -6,7 +6,6 @@
 
   let userEnabled = true;
   let started = false;
-  let pausedForNarration = false;
 
   const style = document.createElement('style');
   style.textContent = `
@@ -31,7 +30,7 @@
   }
 
   async function tryPlay() {
-    if (!userEnabled || pausedForNarration) return;
+    if (!userEnabled) return;
     try {
       await track.play();
       started = true;
@@ -41,7 +40,7 @@
   }
 
   function startAfterGesture() {
-    if (started || !userEnabled || pausedForNarration) return;
+    if (started || !userEnabled) return;
     tryPlay();
   }
 
@@ -60,31 +59,23 @@
     await tryPlay();
   });
 
+  // Keep background music playing during narration.
   window.addEventListener('mylife:narration-start', () => {
-    if (!track.paused) {
-      track.pause();
-      pausedForNarration = true;
-    } else if (userEnabled) {
-      pausedForNarration = true;
-    }
+    if (userEnabled) tryPlay();
   });
 
   window.addEventListener('mylife:narration-pause', () => {
-    if (!userEnabled) return;
-    pausedForNarration = false;
-    tryPlay();
+    if (userEnabled) tryPlay();
   });
 
   window.addEventListener('mylife:narration-end', () => {
-    if (!userEnabled) return;
-    pausedForNarration = false;
-    tryPlay();
+    if (userEnabled) tryPlay();
   });
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       track.pause();
-    } else if (userEnabled && !pausedForNarration && started) {
+    } else if (userEnabled && started) {
       tryPlay();
     }
   });
