@@ -5,9 +5,9 @@
   if (!grid || !section || typeof chapterContent === 'undefined') return;
 
   const labels = {
-    zh: { title: '《Book 1 — My Life Origin》', structure: '12章主结构', hint: '点击章节进入连续向下阅读' },
-    en: { title: '《Book 1 — My Life Origin》', structure: '12-Chapter Structure', hint: 'Select a chapter to begin continuous scroll reading' },
-    ms: { title: '《Book 1 — My Life Origin》', structure: 'Struktur 12 Bab', hint: 'Pilih bab untuk membaca secara berterusan dengan skrol' }
+    zh: { title: '《Book 1 — My Life Origin》', structure: '12章主结构', hint: '点击章节进入连续向下阅读', sourceNote: '中文为原始版本；English 与 Bahasa Melayu 为依照中文原文的对应翻译。' },
+    en: { title: '《Book 1 — My Life Origin》', structure: '12-Chapter Structure', hint: 'Select a chapter to begin continuous scroll reading', sourceNote: 'Chinese is the original source text; English and Bahasa Melayu are corresponding translations based on the Chinese master.' },
+    ms: { title: '《Book 1 — My Life Origin》', structure: 'Struktur 12 Bab', hint: 'Pilih bab untuk membaca secara berterusan dengan skrol', sourceNote: 'Teks bahasa Cina ialah versi asal; English dan Bahasa Melayu ialah terjemahan yang mengikuti teks induk bahasa Cina.' }
   };
 
   function currentLang() {
@@ -27,6 +27,7 @@
           <h2 class="traditional-book-title">${copy.title}</h2>
           <h3 class="traditional-structure-title">${copy.structure}</h3>
           <p class="traditional-contents-hint">${copy.hint}</p>
+          <p class="traditional-source-note">${copy.sourceNote}</p>
         </div>
         <div class="reading-progress"><span id="readCount">0</span>/${list.length} <span>${translations[activeLang]?.readLabel || ''}</span></div>`;
     }
@@ -60,6 +61,7 @@
     .traditional-book-title{font-family:Georgia,'Times New Roman',serif!important;font-size:clamp(34px,4.5vw,54px)!important;line-height:1.12!important;letter-spacing:-.025em!important;margin:0 0 22px!important;color:#15191f}
     .traditional-structure-title{font-family:Georgia,'Times New Roman',serif;font-size:clamp(24px,3vw,34px);line-height:1.2;margin:0 0 10px;color:#15191f}
     .traditional-contents-hint{margin:0;color:#8a847c;font-size:13px}
+    .traditional-source-note{margin:8px 0 0;max-width:720px;color:#9b8b78;font-size:11px;line-height:1.55}
     .traditional-chapter-list{display:block!important;max-width:930px}
     .traditional-chapter-entry{position:relative;display:block;width:100%;min-height:0!important;padding:15px 0 16px!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;text-align:left;color:#17191d;box-shadow:none!important;transform:none!important;border-bottom:1px solid rgba(28,24,20,.08)!important}
     .traditional-chapter-entry:hover{transform:none!important;box-shadow:none!important;background:rgba(167,111,55,.035)!important}
@@ -96,7 +98,18 @@
 })();
 
 setTimeout(() => {
-  const contentScripts = ['chapter234.js', 'chapter567.js', 'chapter8.js', 'chapter9-end.js'];
+  const contentScripts = [
+    'chapter234.js',
+    'chapter567.js',
+    'chapter8.js',
+    'chapter9-end.js',
+    'translation01.js',
+    'translation234.js',
+    'translation567.js',
+    'translation8.js',
+    'translation910.js',
+    'translation11end.js'
+  ];
 
   function loadContentScript(index) {
     if (index >= contentScripts.length) {
