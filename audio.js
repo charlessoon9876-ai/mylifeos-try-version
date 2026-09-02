@@ -4,8 +4,8 @@
 
   const listenBtn = document.getElementById('listenChapterBtn');
   const languageSelect = document.getElementById('languageSelect');
-  const nextPageBtn = document.getElementById('bookNextPage');
   const reader = document.getElementById('reader');
+  const stage = document.getElementById('bookStage');
 
   let voices = [];
   let queue = [];
@@ -14,15 +14,22 @@
   let stoppedManually = false;
 
   const chosenVoices = {
-    zh: { names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'], lang: 'zh-TW', rate: 0.95 },
-    en: { names: ['Google US English'], lang: 'en-US', rate: 0.95 },
-    ms: { names: ['Google Bahasa Indonesia'], lang: 'id-ID', rate: 0.95 }
+    zh: { names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'], lang: 'zh-TW', rate: 1.0 },
+    en: { names: ['Google US English'], lang: 'en-US', rate: 1.0 },
+    ms: { names: ['Google Bahasa Indonesia'], lang: 'id-ID', rate: 1.0 }
   };
 
   const lower = value => (value || '').toLowerCase();
   const profile = () => chosenVoices[languageSelect?.value] || chosenVoices.zh;
   const normalize = value => String(value || '').replace(/\s+/g, '').replace(/[“”‘’"']/g, '').trim();
   const emit = name => window.dispatchEvent(new CustomEvent(name));
+
+  const labels = () => {
+    const lang = languageSelect?.value || 'zh';
+    if (lang === 'en') return { listen: 'Listen', pause: 'Pause', resume: 'Resume', stop: 'Stop' };
+    if (lang === 'ms') return { listen: 'Dengar', pause: 'Jeda', resume: 'Sambung', stop: 'Henti' };
+    return { listen: '听书', pause: '暂停', resume: '继续', stop: '停止' };
+  };
 
   const style = document.createElement('style');
   style.textContent = `
@@ -32,8 +39,16 @@
       box-shadow:0 0 0 2px rgba(181,126,50,.08);
       transition:background .18s ease,box-shadow .18s ease;
     }
+    #stopNarrationBtn{display:none}
+    #stopNarrationBtn.show{display:inline-flex}
   `;
   document.head.appendChild(style);
+
+  const stopBtn = document.createElement('button');
+  stopBtn.id = 'stopNarrationBtn';
+  stopBtn.type = 'button';
+  stopBtn.className = 'ghost';
+  listenBtn?.insertAdjacentElement('afterend', stopBtn);
 
   function refreshVoices() { voices = synth.getVoices() || []; }
 
@@ -53,19 +68,14 @@
     return voices.find(v => lower(v.lang).startsWith(prefix)) || voices[0] || null;
   }
 
-  function labels() {
-    const lang = languageSelect?.value || 'zh';
-    if (lang === 'en') return { listen: 'Listen', pause: 'Pause', resume: 'Resume' };
-    if (lang === 'ms') return { listen: 'Dengar bab', pause: 'Jeda', resume: 'Sambung' };
-    return { listen: '听本章', pause: '暂停', resume: '继续' };
-  }
-
   function setButton(mode = 'listen') {
     if (!listenBtn) return;
     const copy = labels();
     const text = mode === 'pause' ? copy.pause : mode === 'resume' ? copy.resume : copy.listen;
     listenBtn.innerHTML = `${mode === 'pause' ? 'Ⅱ' : '▶'} <span>${text}</span>`;
     listenBtn.setAttribute('aria-pressed', mode === 'pause' ? 'true' : 'false');
+    stopBtn.innerHTML = `■ <span>${copy.stop}</span>`;
+    stopBtn.classList.toggle('show', mode !== 'listen');
   }
 
   function sentenceUnits(text) {
@@ -75,22 +85,44 @@
     return matches.map(s => s.trim()).filter(Boolean);
   }
 
-  function buildSentenceQueue() {
+  function buildContinuousQueue() {
     if (!reader?.classList.contains('open')) return [];
     const items = [];
-    const title = document.getElementById('readerTitle')?.innerText?.trim();
-    const intro = document.getElementById('readerIntro')?.innerText?.trim();
-    if (title) items.push(title);
-    if (intro) items.push(...sentenceUnits(intro));
+    const sections = document.querySelectorAll('#paperLeft .continuous-chapter');
 
-    document.querySelectorAll('#readerBody p').forEach(p => {
-      const text = p.innerText.trim();
-      if (!text) return;
-      const units = sentenceUnits(text);
-      if (units.length) items.push(...units);
-      else items.push(text);
+    sections.forEach(section => {
+      const chapterIndex = Number(section.dataset.continuousChapter || 0);
+      const titleEl = section.querySelector('.continuous-chapter-head h2');
+      const introEl = section.querySelector('.continuous-chapter-head .paper-intro');
+      if (titleEl?.textContent.trim()) items.push({ text: titleEl.textContent.trim(), el: titleEl, chapterIndex });
+      if (introEl?.textContent.trim()) {
+        sentenceUnits(introEl.textContent).forEach(text => items.push({ text, el: introEl, chapterIndex }));
+      }
+      section.querySelectorAll('.continuous-copy p').forEach(p => {
+        sentenceUnits(p.textContent).forEach(text => items.push({ text, el: p, chapterIndex }));
+      });
     });
     return items;
+  }
+
+  function findStartIndex(items) {
+    if (!items.length || !stage) return 0;
+    const stageRect = stage.getBoundingClientRect();
+    const targetY = stageRect.top + Math.min(stage.clientHeight * 0.32, 220);
+    let bestIndex = 0;
+    let bestDistance = Infinity;
+
+    items.forEach((item, index) => {
+      if (!item.el?.isConnected) return;
+      const rect = item.el.getBoundingClientRect();
+      const y = Math.max(rect.top, Math.min(targetY, rect.bottom));
+      const distance = Math.abs(y - targetY);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestIndex = index;
+      }
+    });
+    return bestIndex;
   }
 
   function unwrapHighlights() {
@@ -100,13 +132,13 @@
   }
 
   function wrapSentenceInElement(el, sentence) {
+    if (!el) return false;
     const raw = el.textContent || '';
     const wanted = normalize(sentence);
     if (!wanted || !normalize(raw).includes(wanted)) return false;
 
     const compactRaw = normalize(raw);
-    const compactWanted = wanted;
-    const compactIndex = compactRaw.indexOf(compactWanted);
+    const compactIndex = compactRaw.indexOf(wanted);
     if (compactIndex < 0) return false;
 
     let start = -1;
@@ -117,7 +149,7 @@
       if (/\s/.test(ch) || /[“”‘’"']/.test(ch)) continue;
       if (compactPos === compactIndex && start < 0) start = i;
       compactPos += 1;
-      if (compactPos === compactIndex + compactWanted.length) { end = i + 1; break; }
+      if (compactPos === compactIndex + wanted.length) { end = i + 1; break; }
     }
     if (start < 0 || end < 0) return false;
 
@@ -131,26 +163,12 @@
     return true;
   }
 
-  function tryHighlightVisible(sentence) {
+  function focusItem(item) {
     unwrapHighlights();
-    const candidates = document.querySelectorAll('#paperLeft h2,#paperLeft .paper-intro,#paperLeft .paper-copy p,#paperRight h2,#paperRight .paper-intro,#paperRight .paper-copy p');
-    for (const el of candidates) {
-      if (wrapSentenceInElement(el, sentence)) return true;
-    }
-    return false;
-  }
-
-  function focusSentence(sentence) {
-    if (!reader?.classList.contains('open')) return;
-    const chapterBefore = document.getElementById('bookChapterLabel')?.textContent || '';
-    if (tryHighlightVisible(sentence)) return;
-
-    for (let i = 0; i < 8; i++) {
-      if (!nextPageBtn || nextPageBtn.disabled) break;
-      nextPageBtn.click();
-      const chapterAfter = document.getElementById('bookChapterLabel')?.textContent || '';
-      if (chapterBefore && chapterAfter && chapterAfter !== chapterBefore) break;
-      if (tryHighlightVisible(sentence)) return;
+    if (!item?.el?.isConnected) return;
+    if (wrapSentenceInElement(item.el, item.text)) {
+      const active = item.el.querySelector('.readalong-active');
+      (active || item.el).scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
 
@@ -165,24 +183,25 @@
     emit('mylife:narration-end');
   }
 
+  function finish() {
+    queue = [];
+    queueIndex = 0;
+    activeUtterance = null;
+    unwrapHighlights();
+    setButton('listen');
+    emit('mylife:narration-end');
+  }
+
   function speakNext() {
     if (stoppedManually) return;
-    if (queueIndex >= queue.length) {
-      queue = [];
-      queueIndex = 0;
-      activeUtterance = null;
-      unwrapHighlights();
-      setButton('listen');
-      emit('mylife:narration-end');
-      return;
-    }
+    if (queueIndex >= queue.length) { finish(); return; }
 
-    const text = queue[queueIndex];
-    focusSentence(text);
+    const item = queue[queueIndex];
+    focusItem(item);
 
     const p = profile();
     const voice = findChosenVoice();
-    const utter = new SpeechSynthesisUtterance(text);
+    const utter = new SpeechSynthesisUtterance(item.text);
     if (voice) { utter.voice = voice; utter.lang = voice.lang; }
     else utter.lang = p.lang;
     utter.rate = p.rate;
@@ -191,7 +210,7 @@
 
     utter.onstart = () => {
       activeUtterance = utter;
-      focusSentence(text);
+      focusItem(item);
       setButton('pause');
       emit('mylife:narration-start');
     };
@@ -200,27 +219,27 @@
       if (stoppedManually) return;
       queueIndex += 1;
       activeUtterance = null;
-      window.setTimeout(speakNext, 18);
+      window.setTimeout(speakNext, 20);
     };
 
     utter.onerror = event => {
       if (stoppedManually || event.error === 'interrupted' || event.error === 'canceled') return;
       queueIndex += 1;
       activeUtterance = null;
-      window.setTimeout(speakNext, 18);
+      window.setTimeout(speakNext, 20);
     };
 
     synth.speak(utter);
   }
 
-  function speakChapter() {
-    const items = buildSentenceQueue();
+  function startContinuousNarration() {
+    const items = buildContinuousQueue();
     if (!items.length) { setButton('listen'); return; }
     stoppedManually = false;
     synth.cancel();
     refreshVoices();
     queue = items;
-    queueIndex = 0;
+    queueIndex = findStartIndex(items);
     emit('mylife:narration-start');
     speakNext();
   }
@@ -228,19 +247,28 @@
   listenBtn?.addEventListener('click', event => {
     event.preventDefault();
     event.stopImmediatePropagation();
+
     if (synth.speaking && !synth.paused) {
       synth.pause();
       setButton('resume');
       emit('mylife:narration-pause');
       return;
     }
+
     if (synth.paused) {
       synth.resume();
       setButton('pause');
       emit('mylife:narration-start');
       return;
     }
-    speakChapter();
+
+    startContinuousNarration();
+  }, true);
+
+  stopBtn.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    stop();
   }, true);
 
   document.addEventListener('click', event => {
@@ -249,8 +277,8 @@
 
   languageSelect?.addEventListener('change', () => {
     stop();
-    window.setTimeout(refreshVoices, 50);
-    window.setTimeout(() => setButton('listen'), 60);
+    window.setTimeout(refreshVoices, 80);
+    window.setTimeout(() => setButton('listen'), 100);
   });
 
   synth.onvoiceschanged = refreshVoices;
