@@ -96,12 +96,10 @@
 })();
 
 setTimeout(() => {
-  const contentScript = document.createElement('script');
-  contentScript.src = 'chapter234.js';
-  contentScript.onload = () => {
-    const endingScript = document.createElement('script');
-    endingScript.src = 'chapter9-end.js';
-    endingScript.onload = () => {
+  const contentScripts = ['chapter234.js', 'chapter567.js', 'chapter8.js', 'chapter9-end.js'];
+
+  function loadContentScript(index) {
+    if (index >= contentScripts.length) {
       document.getElementById('languageSelect')?.dispatchEvent(new Event('change'));
 
       const readerScript = document.createElement('script');
@@ -112,8 +110,14 @@ setTimeout(() => {
         document.body.appendChild(formatScript);
       };
       document.body.appendChild(readerScript);
-    };
-    document.body.appendChild(endingScript);
-  };
-  document.body.appendChild(contentScript);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = contentScripts[index];
+    script.onload = () => loadContentScript(index + 1);
+    document.body.appendChild(script);
+  }
+
+  loadContentScript(0);
 }, 0);
