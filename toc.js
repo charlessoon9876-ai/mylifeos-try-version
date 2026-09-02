@@ -96,7 +96,19 @@
 })();
 
 setTimeout(() => {
-  const script = document.createElement('script');
-  script.src = 'continuous-reader.js';
-  document.body.appendChild(script);
+  const contentScript = document.createElement('script');
+  contentScript.src = 'chapter234.js';
+  contentScript.onload = () => {
+    document.getElementById('languageSelect')?.dispatchEvent(new Event('change'));
+
+    const readerScript = document.createElement('script');
+    readerScript.src = 'continuous-reader.js';
+    readerScript.onload = () => {
+      const formatScript = document.createElement('script');
+      formatScript.src = 'chapter-format.js';
+      document.body.appendChild(formatScript);
+    };
+    document.body.appendChild(readerScript);
+  };
+  document.body.appendChild(contentScript);
 }, 0);
