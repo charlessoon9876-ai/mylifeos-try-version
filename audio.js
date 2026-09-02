@@ -12,6 +12,12 @@
   let queueIndex = 0;
   let activeUtterance = null;
   let stoppedManually = false;
+  let timelineDurations = [];
+  let timelineStarts = [];
+  let timelineTotal = 0;
+  let currentItemStartedAt = 0;
+  let pauseStartedAt = 0;
+  let timelineTimer = 0;
 
   const chosenVoices = {
     zh: { names: ['Google 國語（臺灣）', 'Google 國語 (臺灣)', 'Google 國語', 'Google 中文'], lang: 'zh-TW', rate: 1.0 },
@@ -26,9 +32,9 @@
 
   const labels = () => {
     const lang = languageSelect?.value || 'zh';
-    if (lang === 'en') return { listen: 'Listen', pause: 'Pause', resume: 'Resume', stop: 'Stop' };
-    if (lang === 'ms') return { listen: 'Dengar', pause: 'Jeda', resume: 'Sambung', stop: 'Henti' };
-    return { listen: '听书', pause: '暂停', resume: '继续', stop: '停止' };
+    if (lang === 'en') return { listen: 'Listen', pause: 'Pause', resume: 'Resume', stop: 'Stop', timeline: 'Audiobook timeline', estimate: 'estimated at 1.0×' };
+    if (lang === 'ms') return { listen: 'Dengar', pause: 'Jeda', resume: 'Sambung', stop: 'Henti', timeline: 'Garis masa audiobook', estimate: 'anggaran pada 1.0×' };
+    return { listen: '听书', pause: '暂停', resume: '继续', stop: '停止', timeline: '听书时间轴', estimate: '按当前 1.0× 估算' };
   };
 
   const style = document.createElement('style');
@@ -41,6 +47,21 @@
     }
     #stopNarrationBtn{display:none}
     #stopNarrationBtn.show{display:inline-flex}
+    .audiobook-timeline{display:none;padding:14px 20px 12px;border-top:1px solid rgba(114,86,52,.16);border-bottom:1px solid rgba(114,86,52,.12);background:rgba(248,241,229,.72)}
+    .reader.open .audiobook-timeline{display:block}
+    .audiobook-timeline-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:9px;font:600 11px/1.2 Inter,system-ui,sans-serif;letter-spacing:.05em;color:#786955}
+    .audiobook-timeline-title{display:flex;align-items:center;gap:8px;text-transform:uppercase}
+    .audiobook-speed{padding:3px 7px;border:1px solid rgba(126,92,48,.25);border-radius:999px;color:#8a6335;background:rgba(255,255,255,.42);font-weight:800;letter-spacing:.04em}
+    .audiobook-time{font-variant-numeric:tabular-nums;white-space:nowrap;color:#4f4438;letter-spacing:.02em}
+    .audiobook-time .approx{color:#9a856c;font-weight:500}
+    .audiobook-track-wrap{position:relative;height:22px;display:flex;align-items:center}
+    .audiobook-track{position:relative;width:100%;height:4px;border-radius:999px;background:rgba(94,72,46,.16);overflow:visible}
+    .audiobook-progress{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:999px;background:linear-gradient(90deg,#8c633d,#c08c51);transition:width .18s linear}
+    .audiobook-head{position:absolute;top:50%;left:0;width:10px;height:10px;border-radius:50%;background:#8c633d;box-shadow:0 0 0 3px rgba(140,99,61,.12);transform:translate(-50%,-50%);transition:left .18s linear}
+    .audiobook-markers{position:absolute;inset:0;pointer-events:none}
+    .audiobook-marker{position:absolute;top:50%;width:1px;height:10px;background:rgba(92,66,37,.28);transform:translateY(-50%)}
+    .audiobook-timeline-note{margin-top:6px;font:500 10px/1.3 Inter,system-ui,sans-serif;color:#9a8c7a}
+    @media(max-width:700px){.audiobook-timeline{padding:11px 14px 9px}.audiobook-timeline-top{font-size:10px;gap:8px}.audiobook-timeline-note{font-size:9px}.audiobook-speed{padding:2px 6px}}
   `;
   document.head.appendChild(style);
 
@@ -49,6 +70,33 @@
   stopBtn.type = 'button';
   stopBtn.className = 'ghost';
   listenBtn?.insertAdjacentElement('afterend', stopBtn);
+
+  const timeline = document.createElement('div');
+  timeline.className = 'audiobook-timeline';
+  timeline.setAttribute('aria-label', 'Audiobook timeline');
+  timeline.innerHTML = `
+    <div class="audiobook-timeline-top">
+      <div class="audiobook-timeline-title"><span id="audiobookTimelineTitle">听书时间轴</span><span class="audiobook-speed">1.0×</span></div>
+      <div class="audiobook-time"><span id="audiobookElapsed">00:00</span> <span class="approx">/ ~<span id="audiobookTotal">--:--</span></span></div>
+    </div>
+    <div class="audiobook-track-wrap">
+      <div class="audiobook-track">
+        <span class="audiobook-progress" id="audiobookProgress"></span>
+        <span class="audiobook-head" id="audiobookHead"></span>
+        <div class="audiobook-markers" id="audiobookMarkers"></div>
+      </div>
+    </div>
+    <div class="audiobook-timeline-note" id="audiobookTimelineNote">按当前 1.0× 估算</div>
+  `;
+  stage?.insertAdjacentElement('beforebegin', timeline);
+
+  const elapsedEl = timeline.querySelector('#audiobookElapsed');
+  const totalEl = timeline.querySelector('#audiobookTotal');
+  const progressEl = timeline.querySelector('#audiobookProgress');
+  const headEl = timeline.querySelector('#audiobookHead');
+  const markersEl = timeline.querySelector('#audiobookMarkers');
+  const timelineTitleEl = timeline.querySelector('#audiobookTimelineTitle');
+  const timelineNoteEl = timeline.querySelector('#audiobookTimelineNote');
 
   function refreshVoices() { voices = synth.getVoices() || []; }
 
@@ -76,6 +124,8 @@
     listenBtn.setAttribute('aria-pressed', mode === 'pause' ? 'true' : 'false');
     stopBtn.innerHTML = `■ <span>${copy.stop}</span>`;
     stopBtn.classList.toggle('show', mode !== 'listen');
+    if (timelineTitleEl) timelineTitleEl.textContent = copy.timeline;
+    if (timelineNoteEl) timelineNoteEl.textContent = copy.estimate;
   }
 
   function sentenceUnits(text) {
@@ -103,6 +153,97 @@
       });
     });
     return items;
+  }
+
+  function estimateSeconds(text) {
+    const lang = languageSelect?.value || 'zh';
+    const source = String(text || '').trim();
+    if (!source) return 0;
+    const punctuation = (source.match(/[，,。！？!?；;：:]/g) || []).length;
+    if (lang === 'zh') {
+      const chars = source.replace(/\s+/g, '').length;
+      return Math.max(0.8, chars / 4.0 + punctuation * 0.11);
+    }
+    const words = source.split(/\s+/).filter(Boolean).length;
+    return Math.max(0.8, words / 2.7 + punctuation * 0.12);
+  }
+
+  function formatTime(seconds) {
+    const value = Math.max(0, Math.round(Number(seconds) || 0));
+    const h = Math.floor(value / 3600);
+    const m = Math.floor((value % 3600) / 60);
+    const s = value % 60;
+    if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function prepareTimeline(items) {
+    timelineDurations = [];
+    timelineStarts = [];
+    timelineTotal = 0;
+    const chapterStarts = new Map();
+
+    items.forEach((item, index) => {
+      timelineStarts[index] = timelineTotal;
+      if (!chapterStarts.has(item.chapterIndex)) chapterStarts.set(item.chapterIndex, timelineTotal);
+      const seconds = estimateSeconds(item.text);
+      timelineDurations[index] = seconds;
+      timelineTotal += seconds;
+    });
+
+    if (totalEl) totalEl.textContent = formatTime(timelineTotal);
+    if (markersEl) {
+      markersEl.innerHTML = '';
+      if (timelineTotal > 0) {
+        chapterStarts.forEach((seconds, chapterIndex) => {
+          if (seconds <= 0) return;
+          const marker = document.createElement('span');
+          marker.className = 'audiobook-marker';
+          marker.style.left = `${Math.min(100, (seconds / timelineTotal) * 100)}%`;
+          marker.title = `Chapter ${chapterIndex}`;
+          markersEl.appendChild(marker);
+        });
+      }
+    }
+    updateTimelinePosition(queueIndex < items.length ? timelineStarts[queueIndex] : 0);
+  }
+
+  function updateTimelinePosition(seconds) {
+    const elapsed = Math.max(0, Math.min(timelineTotal || 0, Number(seconds) || 0));
+    const percent = timelineTotal > 0 ? (elapsed / timelineTotal) * 100 : 0;
+    if (elapsedEl) elapsedEl.textContent = formatTime(elapsed);
+    if (progressEl) progressEl.style.width = `${percent}%`;
+    if (headEl) headEl.style.left = `${percent}%`;
+  }
+
+  function stopTimelineTimer() {
+    if (timelineTimer) window.clearInterval(timelineTimer);
+    timelineTimer = 0;
+  }
+
+  function startTimelineTimer() {
+    stopTimelineTimer();
+    timelineTimer = window.setInterval(() => {
+      if (!queue.length || queueIndex >= queue.length) return;
+      const base = timelineStarts[queueIndex] || 0;
+      const duration = timelineDurations[queueIndex] || 0;
+      let inside = 0;
+      if (currentItemStartedAt && !synth.paused) inside = (performance.now() - currentItemStartedAt) / 1000;
+      else if (currentItemStartedAt && synth.paused && pauseStartedAt) inside = (pauseStartedAt - currentItemStartedAt) / 1000;
+      updateTimelinePosition(base + Math.min(duration, Math.max(0, inside)));
+    }, 250);
+  }
+
+  function refreshTimelinePreview() {
+    window.setTimeout(() => {
+      const items = buildContinuousQueue();
+      if (!items.length) return;
+      queue = items;
+      queueIndex = 0;
+      prepareTimeline(items);
+      updateTimelinePosition(0);
+      queue = [];
+    }, 90);
   }
 
   function findStartIndex(items) {
@@ -178,15 +319,23 @@
     queue = [];
     queueIndex = 0;
     activeUtterance = null;
+    currentItemStartedAt = 0;
+    pauseStartedAt = 0;
+    stopTimelineTimer();
     unwrapHighlights();
     setButton('listen');
+    updateTimelinePosition(0);
     emit('mylife:narration-end');
   }
 
   function finish() {
+    updateTimelinePosition(timelineTotal);
     queue = [];
     queueIndex = 0;
     activeUtterance = null;
+    currentItemStartedAt = 0;
+    pauseStartedAt = 0;
+    stopTimelineTimer();
     unwrapHighlights();
     setButton('listen');
     emit('mylife:narration-end');
@@ -198,6 +347,7 @@
 
     const item = queue[queueIndex];
     focusItem(item);
+    updateTimelinePosition(timelineStarts[queueIndex] || 0);
 
     const p = profile();
     const voice = findChosenVoice();
@@ -210,15 +360,21 @@
 
     utter.onstart = () => {
       activeUtterance = utter;
+      currentItemStartedAt = performance.now();
+      pauseStartedAt = 0;
       focusItem(item);
       setButton('pause');
+      startTimelineTimer();
       emit('mylife:narration-start');
     };
 
     utter.onend = () => {
       if (stoppedManually) return;
+      updateTimelinePosition((timelineStarts[queueIndex] || 0) + (timelineDurations[queueIndex] || 0));
       queueIndex += 1;
       activeUtterance = null;
+      currentItemStartedAt = 0;
+      pauseStartedAt = 0;
       window.setTimeout(speakNext, 20);
     };
 
@@ -226,6 +382,8 @@
       if (stoppedManually || event.error === 'interrupted' || event.error === 'canceled') return;
       queueIndex += 1;
       activeUtterance = null;
+      currentItemStartedAt = 0;
+      pauseStartedAt = 0;
       window.setTimeout(speakNext, 20);
     };
 
@@ -239,7 +397,9 @@
     synth.cancel();
     refreshVoices();
     queue = items;
+    prepareTimeline(items);
     queueIndex = findStartIndex(items);
+    updateTimelinePosition(timelineStarts[queueIndex] || 0);
     emit('mylife:narration-start');
     speakNext();
   }
@@ -249,6 +409,7 @@
     event.stopImmediatePropagation();
 
     if (synth.speaking && !synth.paused) {
+      pauseStartedAt = performance.now();
       synth.pause();
       setButton('resume');
       emit('mylife:narration-pause');
@@ -256,8 +417,12 @@
     }
 
     if (synth.paused) {
+      const now = performance.now();
+      if (currentItemStartedAt && pauseStartedAt) currentItemStartedAt += now - pauseStartedAt;
+      pauseStartedAt = 0;
       synth.resume();
       setButton('pause');
+      startTimelineTimer();
       emit('mylife:narration-start');
       return;
     }
@@ -278,8 +443,18 @@
   languageSelect?.addEventListener('change', () => {
     stop();
     window.setTimeout(refreshVoices, 80);
-    window.setTimeout(() => setButton('listen'), 100);
+    window.setTimeout(() => {
+      setButton('listen');
+      refreshTimelinePreview();
+    }, 120);
   });
+
+  if (reader) {
+    new MutationObserver(() => {
+      if (reader.classList.contains('open')) refreshTimelinePreview();
+      else stopTimelineTimer();
+    }).observe(reader, { attributes: true, attributeFilter: ['class'] });
+  }
 
   synth.onvoiceschanged = refreshVoices;
   refreshVoices();
