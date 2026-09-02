@@ -90,4 +90,12 @@
     }
   `;
   document.head.appendChild(style);
+
+  const chapterScript = document.createElement('script');
+  chapterScript.src = 'chapter567.js';
+  chapterScript.onload = () => {
+    document.getElementById('languageSelect')?.dispatchEvent(new Event('change'));
+    requestAnimationFrame(formatAll);
+  };
+  document.body.appendChild(chapterScript);
 })();
