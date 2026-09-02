@@ -123,3 +123,94 @@
     })
     .catch(() => {});
 })();
+
+(() => {
+  const anchor = document.querySelector('.origin-flow');
+  const languageSelect = document.getElementById('languageSelect');
+  if (!anchor || document.querySelector('.origin-to-yours')) return;
+
+  const copy = {
+    zh: {
+      label: 'FROM MY ORIGIN TO YOURS',
+      line1: '这本书，是我的 Origin。',
+      line2: '你的 Life OS，将从你自己的数据、你自己的规律、你自己的人生开始。',
+      note: '每一个 Life OS，都应该从一个真实的人生开始。',
+      data: 'YOUR DATA', patterns: 'YOUR PATTERNS', life: 'YOUR LIFE'
+    },
+    en: {
+      label: 'FROM MY ORIGIN TO YOURS',
+      line1: 'This book is my origin.',
+      line2: 'Your Life OS would begin with your own data, your own patterns, and your own life.',
+      note: 'Every Life OS should begin with a real life.',
+      data: 'YOUR DATA', patterns: 'YOUR PATTERNS', life: 'YOUR LIFE'
+    },
+    ms: {
+      label: 'DARIPADA ORIGIN SAYA KEPADA ANDA',
+      line1: 'Buku ini ialah origin saya.',
+      line2: 'Life OS anda akan bermula dengan data anda sendiri, corak anda sendiri dan kehidupan anda sendiri.',
+      note: 'Setiap Life OS sepatutnya bermula daripada kehidupan yang sebenar.',
+      data: 'DATA ANDA', patterns: 'CORAK ANDA', life: 'HIDUP ANDA'
+    }
+  };
+
+  const section = document.createElement('section');
+  section.className = 'origin-to-yours';
+  section.innerHTML = `
+    <div class="shell origin-to-yours-inner">
+      <p class="origin-to-yours-label" id="originToYoursLabel"></p>
+      <div class="origin-to-yours-rule" aria-hidden="true"></div>
+      <blockquote class="origin-to-yours-quote">
+        <span id="originToYoursLine1"></span>
+        <strong id="originToYoursLine2"></strong>
+      </blockquote>
+      <div class="origin-to-yours-steps" aria-label="Your Life OS begins here">
+        <span id="originToYoursData"></span>
+        <i aria-hidden="true">→</i>
+        <span id="originToYoursPatterns"></span>
+        <i aria-hidden="true">→</i>
+        <span id="originToYoursLife"></span>
+      </div>
+      <p class="origin-to-yours-note" id="originToYoursNote"></p>
+    </div>`;
+  anchor.insertAdjacentElement('beforebegin', section);
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .origin-to-yours{position:relative;overflow:hidden;background:#171512;color:#f6efe5;padding:112px 0 108px}
+    .origin-to-yours:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 78% 24%,rgba(185,132,73,.12),transparent 34%),linear-gradient(135deg,rgba(255,255,255,.018),transparent 42%);pointer-events:none}
+    .origin-to-yours-inner{position:relative;max-width:980px}
+    .origin-to-yours-label{margin:0 0 22px;font:800 10px/1.2 Inter,system-ui,sans-serif;letter-spacing:.25em;color:#c99b67}
+    .origin-to-yours-rule{width:76px;height:1px;background:#a97745;margin-bottom:42px}
+    .origin-to-yours-quote{margin:0;max-width:900px;font-family:Georgia,'Times New Roman',serif}
+    .origin-to-yours-quote span{display:block;font-size:clamp(27px,3.7vw,46px);line-height:1.25;color:#cfc5b9;margin-bottom:14px}
+    .origin-to-yours-quote strong{display:block;font-size:clamp(37px,5.4vw,70px);line-height:1.08;font-weight:500;letter-spacing:-.025em;color:#fffaf2}
+    .origin-to-yours-steps{display:flex;align-items:center;gap:18px;margin-top:54px;padding-top:24px;border-top:1px solid rgba(201,155,103,.24);font:800 10px/1 Inter,system-ui,sans-serif;letter-spacing:.18em;color:#d4b18c}
+    .origin-to-yours-steps i{font-style:normal;color:#78624d;font-size:14px;letter-spacing:0}
+    .origin-to-yours-note{margin:28px 0 0;max-width:620px;color:#9f9589;font-size:15px;line-height:1.7}
+    @media(max-width:700px){
+      .origin-to-yours{padding:76px 0 78px}
+      .origin-to-yours-inner{width:min(100% - 42px,980px)}
+      .origin-to-yours-rule{margin-bottom:32px}
+      .origin-to-yours-quote span{font-size:27px}
+      .origin-to-yours-quote strong{font-size:41px;line-height:1.12}
+      .origin-to-yours-steps{gap:10px;flex-wrap:wrap;margin-top:42px;letter-spacing:.13em}
+      .origin-to-yours-steps i{font-size:12px}
+      .origin-to-yours-note{font-size:14px}
+    }
+  `;
+  document.head.appendChild(style);
+
+  function apply() {
+    const c = copy[languageSelect?.value || 'zh'] || copy.zh;
+    document.getElementById('originToYoursLabel').textContent = c.label;
+    document.getElementById('originToYoursLine1').textContent = c.line1;
+    document.getElementById('originToYoursLine2').textContent = c.line2;
+    document.getElementById('originToYoursData').textContent = c.data;
+    document.getElementById('originToYoursPatterns').textContent = c.patterns;
+    document.getElementById('originToYoursLife').textContent = c.life;
+    document.getElementById('originToYoursNote').textContent = c.note;
+  }
+
+  languageSelect?.addEventListener('change', () => setTimeout(apply, 0));
+  apply();
+})();
