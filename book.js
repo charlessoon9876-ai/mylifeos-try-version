@@ -109,6 +109,7 @@
   }
 
   function render(direction = '') {
+    if (reader.classList.contains('continuous-reader')) return;
     const desktop = !window.matchMedia('(max-width: 720px)').matches;
     const total = pages.length;
     if (!total) return;
@@ -157,6 +158,7 @@
   }
 
   function openBook(i, startAtEnd = false) {
+    if (!window.bookReady || reader.classList.contains('continuous-reader')) return;
     const list = chapterContent[currentLang()];
     if (!list || i < 0 || i >= list.length) return;
     activeChapter = i;
@@ -226,7 +228,7 @@
   });
 
   window.addEventListener('resize', () => {
-    if (!reader.classList.contains('open')) return;
+    if (!reader.classList.contains('open') || reader.classList.contains('continuous-reader')) return;
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       const chapter = chapterContent[currentLang()][activeChapter];

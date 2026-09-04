@@ -8,6 +8,7 @@
   const stage = document.getElementById('bookStage');
 
   let voices = [];
+  let narrationSession = 0;
   let queue = [];
   let queueIndex = 0;
   let activeUtterance = null;
@@ -236,6 +237,7 @@
 
   function refreshTimelinePreview() {
     window.setTimeout(() => {
+      if (synth.speaking || synth.paused) return;
       const items = buildContinuousQueue();
       if (!items.length) return;
       queue = items;
@@ -314,6 +316,7 @@
   }
 
   function stop() {
+    narrationSession += 1;
     stoppedManually = true;
     synth.cancel();
     queue = [];
@@ -345,6 +348,7 @@
     if (stoppedManually) return;
     if (queueIndex >= queue.length) { finish(); return; }
 
+    const session = narrationSession;
     const item = queue[queueIndex];
     focusItem(item);
     updateTimelinePosition(timelineStarts[queueIndex] || 0);
@@ -359,6 +363,7 @@
     utter.volume = 1;
 
     utter.onstart = () => {
+      if (session !== narrationSession || stoppedManually) return;
       activeUtterance = utter;
       currentItemStartedAt = performance.now();
       pauseStartedAt = 0;
@@ -369,22 +374,22 @@
     };
 
     utter.onend = () => {
-      if (stoppedManually) return;
+      if (session !== narrationSession || stoppedManually) return;
       updateTimelinePosition((timelineStarts[queueIndex] || 0) + (timelineDurations[queueIndex] || 0));
       queueIndex += 1;
       activeUtterance = null;
       currentItemStartedAt = 0;
       pauseStartedAt = 0;
-      window.setTimeout(speakNext, 20);
+      window.setTimeout(() => { if (session === narrationSession) speakNext(); }, 20);
     };
 
     utter.onerror = event => {
-      if (stoppedManually || event.error === 'interrupted' || event.error === 'canceled') return;
+      if (session !== narrationSession || stoppedManually || event.error === 'interrupted' || event.error === 'canceled') return;
       queueIndex += 1;
       activeUtterance = null;
       currentItemStartedAt = 0;
       pauseStartedAt = 0;
-      window.setTimeout(speakNext, 20);
+      window.setTimeout(() => { if (session === narrationSession) speakNext(); }, 20);
     };
 
     synth.speak(utter);
@@ -393,6 +398,7 @@
   function startContinuousNarration() {
     const items = buildContinuousQueue();
     if (!items.length) { setButton('listen'); return; }
+    narrationSession += 1;
     stoppedManually = false;
     synth.cancel();
     refreshVoices();
@@ -449,12 +455,8 @@
     }, 120);
   });
 
-  if (reader) {
-    new MutationObserver(() => {
-      if (reader.classList.contains('open')) refreshTimelinePreview();
-      else stopTimelineTimer();
-    }).observe(reader, { attributes: true, attributeFilter: ['class'] });
-  }
+  window.addEventListener('mylife:reader-close', stop);
+  window.addEventListener('mylife:reader-rendered', refreshTimelinePreview);
 
   synth.onvoiceschanged = refreshVoices;
   refreshVoices();
