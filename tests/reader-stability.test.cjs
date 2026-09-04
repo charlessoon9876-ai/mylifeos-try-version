@@ -171,3 +171,41 @@ test('Escape cancels narration and callbacks from an old session cannot continue
   assert.equal(utterances.length, 2);
   assert.equal(synth.speaking, true);
 });
+
+test('Continue restarts the saved sentence despite stale browser flags and native resume doing nothing', () => {
+  const h = harness(); const utterances = [];
+  const synth = {
+    speaking: true, paused: false, getVoices: () => [],
+    cancel() {}, resume() {},
+    pause() { throw new Error('Native pause must not be used'); },
+    speak(utterance) { utterances.push(utterance); utterance.onstart(); }
+  };
+  h.window.speechSynthesis = synth;
+  h.run('app.js'); h.run('continuous-reader.js'); h.run('audio.js');
+  const title = new h.Element(); title.textContent = 'Saved sentence.';
+  const section = new h.Element(); section.dataset.continuousChapter = '0';
+  section.querySelector = selector => selector.includes('h2') ? title : null;
+  h.document.querySelectorAll = selector => selector.includes('.continuous-chapter') ? [section] : [];
+  h.window.bookReady = true;
+  h.window.openReader(0); h.flush();
+  const button = h.node('#listenChapterBtn');
+  button.dispatchEvent(new Event('click'));
+  assert.equal(utterances.length, 1);
+  button.dispatchEvent(new Event('click'));
+  assert.match(button.innerHTML, /继续/);
+  // An old utterance may deliver its completion after cancellation.
+  utterances[0].onend(); h.flush();
+  assert.equal(utterances.length, 1);
+  button.dispatchEvent(new Event('click'));
+  assert.equal(utterances.length, 2);
+  assert.equal(utterances[1].text, 'Saved sentence.');
+  assert.match(button.innerHTML, /暂停/);
+  // Also pause in the short gap between sentences.
+  utterances[1].onend();
+  button.dispatchEvent(new Event('click'));
+  h.flush();
+  assert.equal(utterances.length, 2);
+  h.window.dispatchEvent(new Event('mylife:reader-close'));
+  h.flush();
+  assert.equal(utterances.length, 2);
+});

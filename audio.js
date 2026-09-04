@@ -9,6 +9,7 @@
 
   let voices = [];
   let narrationSession = 0;
+  let playbackState = 'idle';
   let queue = [];
   let queueIndex = 0;
   let activeUtterance = null;
@@ -237,7 +238,7 @@
 
   function refreshTimelinePreview() {
     window.setTimeout(() => {
-      if (synth.speaking || synth.paused) return;
+      if (playbackState !== 'idle') return;
       const items = buildContinuousQueue();
       if (!items.length) return;
       queue = items;
@@ -316,6 +317,7 @@
   }
 
   function stop() {
+    playbackState = 'idle';
     narrationSession += 1;
     stoppedManually = true;
     synth.cancel();
@@ -332,6 +334,7 @@
   }
 
   function finish() {
+    playbackState = 'idle';
     updateTimelinePosition(timelineTotal);
     queue = [];
     queueIndex = 0;
@@ -345,7 +348,7 @@
   }
 
   function speakNext() {
-    if (stoppedManually) return;
+    if (stoppedManually || playbackState !== 'playing') return;
     if (queueIndex >= queue.length) { finish(); return; }
 
     const session = narrationSession;
@@ -392,6 +395,7 @@
       window.setTimeout(() => { if (session === narrationSession) speakNext(); }, 20);
     };
 
+    activeUtterance = utter;
     synth.speak(utter);
   }
 
@@ -400,7 +404,9 @@
     if (!items.length) { setButton('listen'); return; }
     narrationSession += 1;
     stoppedManually = false;
+    playbackState = 'playing';
     synth.cancel();
+    synth.resume();
     refreshVoices();
     queue = items;
     prepareTimeline(items);
@@ -414,22 +420,31 @@
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    if (synth.speaking && !synth.paused) {
-      pauseStartedAt = performance.now();
-      synth.pause();
+    if (playbackState === 'playing') {
+      // Retain our sentence queue, but release the browser's utterance.
+      // Native pause/resume can leave a voice stuck or report stale flags.
+      playbackState = 'paused';
+      narrationSession += 1;
+      stopTimelineTimer();
+      synth.cancel();
+      activeUtterance = null;
+      currentItemStartedAt = 0;
+      pauseStartedAt = 0;
       setButton('resume');
       emit('mylife:narration-pause');
       return;
     }
 
-    if (synth.paused) {
-      const now = performance.now();
-      if (currentItemStartedAt && pauseStartedAt) currentItemStartedAt += now - pauseStartedAt;
-      pauseStartedAt = 0;
+    if (playbackState === 'paused') {
+      narrationSession += 1;
+      playbackState = 'playing';
+      stoppedManually = false;
+      synth.cancel();
       synth.resume();
+      refreshVoices();
       setButton('pause');
-      startTimelineTimer();
-      emit('mylife:narration-start');
+      // Restart the saved sentence; do not rebuild from the scroll position.
+      speakNext();
       return;
     }
 
