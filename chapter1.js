@@ -1,10 +1,4 @@
 (() => {
-  const prologueScript = document.createElement('script');
-  prologueScript.src = 'prologue.js';
-  document.head.appendChild(prologueScript);
-})();
-
-(() => {
   if (typeof chapterContent === 'undefined' || !chapterContent.zh || !chapterContent.zh[1]) return;
 
   chapterContent.zh[1] = [

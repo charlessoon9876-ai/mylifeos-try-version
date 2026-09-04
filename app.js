@@ -31,6 +31,7 @@ function renderChapters(){
   $$('.chapter-card').forEach(btn=>btn.addEventListener('click',()=>openReader(Number(btn.dataset.chapter))));
 }
 function openReader(i){
+  if (!window.bookReady) return;
   const list=chapterContent[lang];
   if(i<0||i>=list.length)return;
   currentChapter=i;
@@ -47,6 +48,7 @@ function openReader(i){
   $('.reader-panel').scrollTop=0;
 }
 function closeReader(){
+  window.dispatchEvent(new Event('mylife:reader-close'));
   $('#reader').classList.remove('open');
   $('#reader').setAttribute('aria-hidden','true');
   document.body.style.overflow='';

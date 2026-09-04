@@ -19,7 +19,6 @@
   const list = () => chapterContent[lang()] || chapterContent.zh;
 
   let activeIndex = 0;
-  let observer = null;
   let scrollTimer = null;
 
   const labels = {
@@ -53,7 +52,7 @@
     const chapter = list()[index];
     if (!chapter) return;
     activeIndex = index;
-    try { window.currentChapter = index; } catch (_) {}
+    currentChapter = index;
     const kicker = document.getElementById('readerKicker');
     const title = document.getElementById('readerTitle');
     const intro = document.getElementById('readerIntro');
@@ -73,19 +72,14 @@
     progressBar.style.width = `${Math.max(2, Math.min(100, (stage.scrollTop / max) * 100))}%`;
   }
 
-  function observeChapters() {
-    observer?.disconnect();
-    const sections = [...left.querySelectorAll('.continuous-chapter')];
-    if (!sections.length) return;
-    observer = new IntersectionObserver(entries => {
-      const visible = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((a, b) => Math.abs(a.boundingClientRect.top - 120) - Math.abs(b.boundingClientRect.top - 120));
-      if (!visible.length) return;
-      const index = Number(visible[0].target.dataset.continuousChapter);
-      if (Number.isFinite(index) && index !== activeIndex) syncHiddenSource(index);
-    }, { root: stage, rootMargin: '-70px 0px -58% 0px', threshold: [0, .08, .2] });
-    sections.forEach(section => observer.observe(section));
+  function syncVisibleChapter() {
+    const readingLine = stage.getBoundingClientRect().top + 70;
+    let index = 0;
+    for (const section of left.querySelectorAll('.continuous-chapter')) {
+      if (section.getBoundingClientRect().top > readingLine) break;
+      index = Number(section.dataset.continuousChapter);
+    }
+    if (index !== activeIndex) syncHiddenSource(index);
   }
 
   function renderContinuous(startIndex = 0) {
@@ -100,16 +94,17 @@
     spread.classList.add('continuous-spread');
     reader.classList.add('continuous-reader');
     syncHiddenSource(Math.max(0, Math.min(startIndex, chapters.length - 1)));
-    observeChapters();
     stage.scrollTop = 0;
     requestAnimationFrame(() => {
       const target = left.querySelector(`[data-continuous-chapter="${startIndex}"]`);
-      target?.scrollIntoView({ block: 'start' });
+      target?.scrollIntoView({ block: 'start', behavior: 'instant' });
       updateProgress();
+      window.dispatchEvent(new Event('mylife:reader-rendered'));
     });
   }
 
   function openContinuous(index = 0) {
+    if (!window.bookReady) return;
     reader.classList.add('open');
     reader.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -130,15 +125,13 @@
   }, true);
 
   stage.addEventListener('scroll', () => {
+    syncVisibleChapter();
     clearTimeout(scrollTimer);
     updateProgress();
     scrollTimer = setTimeout(updateProgress, 40);
   }, { passive: true });
 
-  languageSelect?.addEventListener('change', () => {
-    if (!reader.classList.contains('open')) return;
-    setTimeout(() => renderContinuous(activeIndex), 140);
-  });
+
 
   const highlightObserver = new MutationObserver(() => {
     const active = left.querySelector('.active-reading-chapter .readalong-active');

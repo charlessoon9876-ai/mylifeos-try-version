@@ -86,51 +86,5 @@
   setTimeout(renderTraditionalContents, 0);
   languageSelect?.addEventListener('change', () => setTimeout(renderTraditionalContents, 0));
 
-  const originalRenderChapters = typeof renderChapters === 'function' ? renderChapters : null;
-  if (originalRenderChapters) {
-    window.setTimeout(() => {
-      const observer = new MutationObserver(() => {
-        if (!grid.classList.contains('traditional-chapter-list')) renderTraditionalContents();
-      });
-      observer.observe(grid, { childList: true });
-    }, 50);
-  }
+  renderChapters = renderTraditionalContents;
 })();
-
-setTimeout(() => {
-  const contentScripts = [
-    'chapter234.js',
-    'chapter567.js',
-    'chapter8.js',
-    'chapter9-end.js',
-    'translation01.js',
-    'translation234.js',
-    'translation567.js',
-    'translation8.js',
-    'translation910.js',
-    'translation11end.js'
-  ];
-
-  function loadContentScript(index) {
-    if (index >= contentScripts.length) {
-      document.getElementById('languageSelect')?.dispatchEvent(new Event('change'));
-
-      const readerScript = document.createElement('script');
-      readerScript.src = 'continuous-reader.js';
-      readerScript.onload = () => {
-        const formatScript = document.createElement('script');
-        formatScript.src = 'chapter-format.js';
-        document.body.appendChild(formatScript);
-      };
-      document.body.appendChild(readerScript);
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = contentScripts[index];
-    script.onload = () => loadContentScript(index + 1);
-    document.body.appendChild(script);
-  }
-
-  loadContentScript(0);
-}, 0);

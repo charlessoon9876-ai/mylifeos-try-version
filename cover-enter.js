@@ -46,6 +46,10 @@
   }
 
   function enterBook(){
+    if (!window.bookReady) {
+      document.getElementById('bookLoadStatus')?.scrollIntoView({ block: 'center' });
+      return;
+    }
     if (typeof window.openReader === 'function') {
       window.openReader(0);
       return;
