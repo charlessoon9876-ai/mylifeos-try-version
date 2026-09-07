@@ -12,11 +12,14 @@
     ms: ['Sedang menyediakan buku…', 'Buku tidak dapat dimuatkan. Sila cuba lagi.', 'Cuba lagi']
   };
   // One ordered path owns all content and reader initialization.
+  // V2 editorial overrides are loaded after the approved V1 content/translations,
+  // preserving V1 in Git history while making V2 the live reader content on this branch.
   const scripts = [
     'prologue.js', 'chapter1.js', 'chapter234.js', 'chapter567.js',
     'chapter8.js', 'chapter9-end.js', 'translation01.js',
     'translation234.js', 'translation567.js', 'translation8.js',
     'translation910.js', 'translation11end.js',
+    'editorial-v2-zh.js', 'editorial-v2-en.js', 'editorial-v2-ms.js',
     'continuous-reader.js', 'chapter-format.js'
   ];
   let index = 0;
