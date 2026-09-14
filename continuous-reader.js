@@ -17,6 +17,7 @@
   const escapeHtml = value => String(value || '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
   const lang = () => languageSelect?.value || 'zh';
   const list = () => chapterContent[lang()] || chapterContent.zh;
+  const bookMark = document.body.classList.contains('book2-page') ? 'MY LIFE OS · WHO AM I?' : 'MY LIFE OS · ORIGIN';
 
   let activeIndex = 0;
   let scrollTimer = null;
@@ -44,7 +45,7 @@
         <p class="paper-intro">${escapeHtml(chapter[2])}</p>
       </header>
       <div class="paper-copy continuous-copy">${bodyHtml(chapter[3])}</div>
-      <div class="continuous-divider"><span>MY LIFE OS · ORIGIN</span></div>
+      <div class="continuous-divider"><span>${bookMark}</span></div>
     </section>`;
   }
 
