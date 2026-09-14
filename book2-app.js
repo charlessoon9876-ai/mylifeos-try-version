@@ -149,7 +149,7 @@ function openReader(i){
  $('#readerBody').innerHTML=c[3].split(/\n\s*\n/).map(p=>`<p>${p}</p>`).join('');
  $('#reader').classList.add('open');$('#reader').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
 }
-function closeReader(){window.dispatchEvent(new Event('mylife:reader-close'));$('#reader').classList.remove('open');$('#reader').setAttribute('aria-hidden','true');document.body.style.overflow=''}
+function closeReader(){stopNarration();window.dispatchEvent(new Event('mylife:reader-close'));$('#reader').classList.remove('open');$('#reader').setAttribute('aria-hidden','true');document.body.style.overflow=''}
 function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800)}
 $('#languageSelect').addEventListener('change',e=>{lang=e.target.value;localStorage.setItem('whoami.lang',lang);applyLanguage()});
 $$('[data-close-reader]').forEach(e=>e.addEventListener('click',closeReader));
@@ -157,3 +157,17 @@ $('#markReadBtn').addEventListener('click',()=>{readSet.add(currentChapter);loca
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeReader()});
 $('#shareBtn').addEventListener('click',async()=>{try{if(navigator.share)await navigator.share({title:'Book 2 — Who Am I?',text:$('#heroSub').textContent,url:location.href});else{await navigator.clipboard.writeText(location.href);toast(translations[lang].shared)}}catch{}});
 applyLanguage();
+let narration=null,narrating=false,paused=false;
+function stopNarration(){speechSynthesis.cancel();narration=null;narrating=false;paused=false;const b=$('#listenChapterBtn');if(b)b.innerHTML='▶ <span>'+translations[lang].listenChapter+'</span>'}
+function toggleNarration(){
+ const b=$('#listenChapterBtn');
+ if(narrating&&paused){speechSynthesis.resume();paused=false;b.innerHTML='Ⅱ <span>暂停</span>';return}
+ if(narrating){speechSynthesis.pause();paused=true;b.innerHTML='▶ <span>继续</span>';return}
+ const c=chapterContent[lang][currentChapter];if(!c)return;
+ narration=new SpeechSynthesisUtterance(c[1]+'。'+c[2]+'。'+c[3]);
+ narration.lang=lang==='zh'?'zh-CN':lang==='ms'?'ms-MY':'en-US';narration.rate=.95;
+ narration.onend=stopNarration;narration.onerror=stopNarration;
+ speechSynthesis.cancel();speechSynthesis.speak(narration);narrating=true;paused=false;b.innerHTML='Ⅱ <span>暂停</span>';
+}
+$('#listenChapterBtn').addEventListener('click',toggleNarration);
+window.addEventListener('mylife:reader-close',stopNarration);
