@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="description" content="MyLifeOS · 6 Books — an interactive 3D knowledge graph connecting Origin, Who Am I?, the birth and practice of MyLifeOS, Academy, and Future Self." />
-  <title>MyLifeOS · 6 Books Knowledge Graph</title>
+  <meta name="description" content="MyLifeOS Six Books overview mind-chain — chapter key ideas, cross-book links, and the continuity from Origin to Future Self." />
+  <title>MyLifeOS · Six Books Overview</title>
   <link rel="stylesheet" href="six-books.css" />
 </head>
 <body>
@@ -13,99 +13,66 @@
       <div class="brand-block">
         <a class="brand" href="index.html">MYLIFEOS</a>
         <span class="brand-sep">·</span>
-        <strong>6 BOOKS</strong>
-        <span class="mode-badge">KNOWLEDGE GRAPH</span>
+        <strong>SIX BOOKS</strong>
+        <span class="mode-badge">OVERVIEW MIND-CHAIN</span>
       </div>
       <div class="top-actions">
-        <a href="index.html" class="ghost-link">Book 01</a>
-        <a href="book2.html" class="ghost-link">Book 02</a>
-        <button id="resetView" class="ghost-btn" type="button">Reset View</button>
+        <a class="ghost-link" href="index.html">Book Website ↗</a>
+        <button id="fitView" class="ghost-btn" type="button">Fit All</button>
       </div>
     </header>
 
-    <main class="workspace">
-      <aside class="left-panel glass-panel">
-        <div class="panel-title-row">
-          <div>
-            <p class="eyebrow">LIBRARY</p>
-            <h1>六书总图</h1>
-          </div>
-          <span id="nodeCount" class="count-pill">0 nodes</span>
+    <main class="overview-page">
+      <section class="overview-head">
+        <div>
+          <p class="eyebrow">ONE LIFE · SIX BOOKS · ONE CONTINUOUS SYSTEM</p>
+          <h1>六书连贯性总图</h1>
+          <p class="lead">不是六本分开的书，而是一条从 <b>看见人生</b> → <b>看见自己</b> → <b>建立系统</b> → <b>活进现实</b> → <b>走向他人</b> → <b>创造未来</b> 的连续路径。</p>
         </div>
-
-        <label class="search-box">
-          <span>⌕</span>
-          <input id="searchInput" type="search" autocomplete="off" placeholder="搜索章节、概念、关键词" />
-        </label>
-
-        <nav id="bookFilters" class="book-filters" aria-label="Book filters"></nav>
-
-        <section class="legend-block">
-          <p class="eyebrow">SHARED CONCEPTS</p>
-          <div class="legend-grid">
-            <span><i class="dot identity"></i>Identity</span>
-            <span><i class="dot review"></i>Review</span>
-            <span><i class="dot pattern"></i>Pattern</span>
-            <span><i class="dot future"></i>Future Self</span>
-            <span><i class="dot data"></i>Raw Data</span>
-            <span><i class="dot freedom"></i>Freedom First</span>
-          </div>
-        </section>
-
-        <section class="status-note">
-          <strong>V1 → V2 → V3</strong>
-          <p>Record & Review → Connect & Understand → Future Self</p>
-        </section>
-      </aside>
-
-      <section class="graph-panel" aria-label="Interactive knowledge graph">
-        <canvas id="graphCanvas"></canvas>
-        <div class="graph-overlay top-left">
-          <span>Drag to rotate</span>
-          <span>Scroll / pinch to zoom</span>
-          <span>Tap a node for details</span>
-        </div>
-        <div class="graph-overlay bottom-left">
-          <span id="activeMode">All Books</span>
-          <span id="visibleStats">0 visible</span>
+        <div class="continuity-score">
+          <span>CORE SPINE</span>
+          <strong>01 → 02 → 03 → 04 → 05 → 06</strong>
         </div>
       </section>
 
-      <aside class="right-panel glass-panel">
-        <div id="emptyDetail" class="empty-detail">
-          <div class="orbit-mark"><span></span></div>
-          <p class="eyebrow">NODE INSPECTOR</p>
-          <h2>选择一个节点</h2>
-          <p>查看章节主题、核心概念、关联章节，以及跨书连接。</p>
+      <section class="spine" aria-label="Six book continuity spine">
+        <article class="spine-book b1"><span>01</span><div><strong>Origin</strong><small>看见人生</small></div></article>
+        <i>→</i>
+        <article class="spine-book b2"><span>02</span><div><strong>Who Am I?</strong><small>看见自己</small></div></article>
+        <i>→</i>
+        <article class="spine-book b3"><span>03</span><div><strong>Birth of Life OS</strong><small>建立系统</small></div></article>
+        <i>→</i>
+        <article class="spine-book b4"><span>04</span><div><strong>Living With MyLifeOS</strong><small>活进现实</small></div></article>
+        <i>→</i>
+        <article class="spine-book b5"><span>05</span><div><strong>Beyond Myself</strong><small>走向他人</small></div></article>
+        <i>→</i>
+        <article class="spine-book b6"><span>06</span><div><strong>Creating My Future Self</strong><small>创造未来</small></div></article>
+      </section>
+
+      <section class="map-frame">
+        <div class="map-toolbar">
+          <div class="legend">
+            <span><i class="line main"></i>主故事线</span>
+            <span><i class="line cross"></i>跨书连接</span>
+            <span><i class="node-dot hub"></i>Hub Node</span>
+            <span><i class="node-dot pending"></i>Pending Book</span>
+          </div>
+          <div class="map-help">拖动画布 · 滚轮缩放 · 点击节点高亮关系</div>
         </div>
+        <div id="mapViewport" class="map-viewport">
+          <svg id="mindMap" viewBox="0 0 2200 1180" role="img" aria-label="MyLifeOS six-book overview mind-chain"></svg>
+        </div>
+      </section>
 
-        <article id="nodeDetail" class="node-detail" hidden>
-          <div class="detail-meta">
-            <span id="detailType" class="type-chip">BOOK</span>
-            <span id="detailBook" class="book-chip">BOOK 01</span>
-          </div>
-          <p id="detailKicker" class="eyebrow"></p>
-          <h2 id="detailTitle"></h2>
-          <p id="detailSummary" class="detail-summary"></p>
-
-          <div class="detail-section">
-            <h3>核心概念</h3>
-            <div id="detailConcepts" class="tag-list"></div>
-          </div>
-
-          <div class="detail-section">
-            <h3>关联节点</h3>
-            <div id="detailLinks" class="related-list"></div>
-          </div>
-
-          <div id="detailActionWrap" class="detail-action-wrap">
-            <a id="detailAction" class="primary-link" href="#">Open Book</a>
-          </div>
-        </article>
-      </aside>
+      <section class="bridge-row">
+        <div><span>Book 1 → 2</span><strong>我开始看见人生 → 那我看见的是谁？</strong></div>
+        <div><span>Book 2 → 3</span><strong>认识自己 → 我需要怎样的系统？</strong></div>
+        <div><span>Book 3 → 4</span><strong>系统诞生 → 它能否在真实生活运行？</strong></div>
+        <div><span>Book 4 → 5</span><strong>个人验证 → 能否帮助更多人？</strong></div>
+        <div><span>Book 5 → 6</span><strong>方法复制 → 最终回到主动创造未来的自己</strong></div>
+      </section>
     </main>
   </div>
-
   <script src="six-books.js"></script>
 </body>
 </html>
