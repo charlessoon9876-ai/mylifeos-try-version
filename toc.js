@@ -4,7 +4,12 @@
   const languageSelect = document.getElementById('languageSelect');
   if (!grid || !section || typeof chapterContent === 'undefined') return;
 
-  const labels = {
+  const isBook2 = document.body.classList.contains('book2-page');
+  const labels = isBook2 ? {
+    zh: { title: '《Book 2 — Who Am I?》', structure: '10章主结构 · 序章 · 尾声', hint: '点击章节进入阅读', sourceNote: 'Book 2｜从认识自己，到成为自己。' },
+    en: { title: '《Book 2 — Who Am I?》', structure: '10 Chapters · Prologue · Epilogue', hint: 'Select a chapter to begin reading', sourceNote: 'Book 2｜From knowing myself to becoming myself.' },
+    ms: { title: '《Book 2 — Who Am I?》', structure: '10 Bab · Prolog · Epilog', hint: 'Pilih bab untuk mula membaca', sourceNote: 'Book 2｜Daripada mengenali diri kepada menjadi diri sendiri.' }
+  } : {
     zh: { title: '《Book 1 — My Life Origin》', structure: '12章主结构', hint: '点击章节进入连续向下阅读', sourceNote: '中文为原始版本；English 与 Bahasa Melayu 为依照中文原文的对应翻译。' },
     en: { title: '《Book 1 — My Life Origin》', structure: '12-Chapter Structure', hint: 'Select a chapter to begin continuous scroll reading', sourceNote: 'Chinese is the original source text; English and Bahasa Melayu are corresponding translations based on the Chinese master.' },
     ms: { title: '《Book 1 — My Life Origin》', structure: 'Struktur 12 Bab', hint: 'Pilih bab untuk membaca secara berterusan dengan skrol', sourceNote: 'Teks bahasa Cina ialah versi asal; English dan Bahasa Melayu ialah terjemahan yang mengikuti teks induk bahasa Cina.' }
