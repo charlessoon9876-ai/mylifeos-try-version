@@ -3,76 +3,151 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="description" content="MyLifeOS Six Books overview mind-chain — chapter key ideas, cross-book links, and the continuity from Origin to Future Self." />
-  <title>MyLifeOS · Six Books Overview</title>
+  <meta name="description" content="MyLifeOS Six Books master overview. Book 1 Origin and Book 2 Who Am I are mapped in detail; Books 3–6 are reserved for future development." />
+  <title>MyLifeOS · Six Books Master Map</title>
   <link rel="stylesheet" href="six-books.css" />
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
-      <div class="brand-block">
-        <a class="brand" href="index.html">MYLIFEOS</a>
-        <span class="brand-sep">·</span>
-        <strong>SIX BOOKS</strong>
-        <span class="mode-badge">OVERVIEW MIND-CHAIN</span>
+      <div class="brand-wrap">
+        <a class="brand" href="index.html">MyLife<span>OS</span></a>
+        <small>KNOWLEDGE GRAPH</small>
       </div>
-      <div class="top-actions">
-        <a class="ghost-link" href="index.html">Book Website ↗</a>
-        <button id="fitView" class="ghost-btn" type="button">Fit All</button>
+
+      <label class="global-search">
+        <span class="search-icon">⌕</span>
+        <input id="graphSearch" type="search" placeholder="搜索章节、概念、主题或关联内容..." autocomplete="off" />
+        <kbd>⌘ K</kbd>
+      </label>
+
+      <div class="profile-area">
+        <a class="website-link" href="index.html">BOOK WEBSITE ↗</a>
+        <span>CHARLES / 个人空间</span>
+        <i class="profile-dot">C</i>
       </div>
     </header>
 
-    <main class="overview-page">
-      <section class="overview-head">
-        <div>
-          <p class="eyebrow">ONE LIFE · SIX BOOKS · ONE CONTINUOUS SYSTEM</p>
-          <h1>六书连贯性总图</h1>
-          <p class="lead">不是六本分开的书，而是一条从 <b>看见人生</b> → <b>看见自己</b> → <b>建立系统</b> → <b>活进现实</b> → <b>走向他人</b> → <b>创造未来</b> 的连续路径。</p>
+    <main class="workspace">
+      <aside class="left-sidebar">
+        <div class="side-intro">
+          <p class="eyebrow">MYLIFEOS · SIX BOOKS</p>
+          <h1>六书总图</h1>
+          <p>从六本书的整体视角，看见一条连续成长的生命之路。</p>
         </div>
-        <div class="continuity-score">
-          <span>CORE SPINE</span>
-          <strong>01 → 02 → 03 → 04 → 05 → 06</strong>
+
+        <button class="book-row all active" type="button" data-filter="all">
+          <span class="stack-icon">◇</span>
+          <span><b>全部书籍</b><small>Six Books Overview</small></span>
+          <em>6</em>
+        </button>
+
+        <nav class="book-list" aria-label="Six books">
+          <button class="book-row" type="button" data-filter="b1">
+            <i class="book-dot b1"></i>
+            <span><b>01 Origin</b><small>起点 · 原点</small></span>
+            <em>14</em>
+          </button>
+          <button class="book-row" type="button" data-filter="b2">
+            <i class="book-dot b2"></i>
+            <span><b>02 Who Am I?</b><small>我是谁？</small></span>
+            <em>12</em>
+          </button>
+          <button class="book-row pending-row" type="button" data-filter="b3">
+            <i class="book-dot b3"></i>
+            <span><b>03 Birth of Life OS</b><small>系统诞生</small></span>
+            <em>待补充</em>
+          </button>
+          <button class="book-row pending-row" type="button" data-filter="b4">
+            <i class="book-dot b4"></i>
+            <span><b>04 Living With MyLifeOS</b><small>活进真实生活</small></span>
+            <em>待补充</em>
+          </button>
+          <button class="book-row pending-row" type="button" data-filter="b5">
+            <i class="book-dot b5"></i>
+            <span><b>05 Beyond Myself Growth</b><small>走向他人 · 持续成长</small></span>
+            <em>待补充</em>
+          </button>
+          <button class="book-row pending-row" type="button" data-filter="b6">
+            <i class="book-dot b6"></i>
+            <span><b>06 Creating My Future Self</b><small>创造未来的自己</small></span>
+            <em>待补充</em>
+          </button>
+        </nav>
+
+        <div class="side-divider"></div>
+        <p class="mini-title">当前数据层</p>
+        <div class="data-status">
+          <div><span>Book 1</span><strong>14 Chapter Nodes</strong></div>
+          <div><span>Book 2</span><strong>12 Chapter Nodes</strong></div>
+          <div><span>Book 3–6</span><strong>Structure Reserved</strong></div>
         </div>
-      </section>
+      </aside>
 
-      <section class="spine" aria-label="Six book continuity spine">
-        <article class="spine-book b1"><span>01</span><div><strong>Origin</strong><small>看见人生</small></div></article>
-        <i>→</i>
-        <article class="spine-book b2"><span>02</span><div><strong>Who Am I?</strong><small>看见自己</small></div></article>
-        <i>→</i>
-        <article class="spine-book b3"><span>03</span><div><strong>Birth of Life OS</strong><small>建立系统</small></div></article>
-        <i>→</i>
-        <article class="spine-book b4"><span>04</span><div><strong>Living With MyLifeOS</strong><small>活进现实</small></div></article>
-        <i>→</i>
-        <article class="spine-book b5"><span>05</span><div><strong>Beyond Myself</strong><small>走向他人</small></div></article>
-        <i>→</i>
-        <article class="spine-book b6"><span>06</span><div><strong>Creating My Future Self</strong><small>创造未来</small></div></article>
-      </section>
-
-      <section class="map-frame">
-        <div class="map-toolbar">
-          <div class="legend">
-            <span><i class="line main"></i>主故事线</span>
-            <span><i class="line cross"></i>跨书连接</span>
-            <span><i class="node-dot hub"></i>Hub Node</span>
-            <span><i class="node-dot pending"></i>Pending Book</span>
+      <section class="graph-stage">
+        <div class="graph-head">
+          <div>
+            <h2>六书总览 · 3D</h2>
+            <p>Book 1 + Book 2 Detailed · Book 3–6 Pending</p>
           </div>
-          <div class="map-help">拖动画布 · 滚轮缩放 · 点击节点高亮关系</div>
+          <div class="view-select">显示 <strong id="viewLabel">全部书籍</strong>⌄</div>
         </div>
-        <div id="mapViewport" class="map-viewport">
-          <svg id="mindMap" viewBox="0 0 2200 1180" role="img" aria-label="MyLifeOS six-book overview mind-chain"></svg>
+
+        <div id="graphViewport" class="graph-viewport">
+          <svg id="sixBookGraph" viewBox="0 0 1240 820" role="img" aria-label="MyLifeOS six books knowledge graph"></svg>
+          <div class="graph-legend">
+            <span><i class="legend-dot active-book"></i>已建立</span>
+            <span><i class="legend-dot pending-book"></i>Pending</span>
+            <span><i class="legend-line solid"></i>章节主线</span>
+            <span><i class="legend-line dashed"></i>跨书连接</span>
+          </div>
+          <div class="graph-controls">
+            <span>3D 模式</span>
+            <button id="zoomOut" type="button">−</button>
+            <button id="resetGraph" type="button">重置视图</button>
+            <button id="zoomIn" type="button">＋</button>
+          </div>
         </div>
       </section>
 
-      <section class="bridge-row">
-        <div><span>Book 1 → 2</span><strong>我开始看见人生 → 那我看见的是谁？</strong></div>
-        <div><span>Book 2 → 3</span><strong>认识自己 → 我需要怎样的系统？</strong></div>
-        <div><span>Book 3 → 4</span><strong>系统诞生 → 它能否在真实生活运行？</strong></div>
-        <div><span>Book 4 → 5</span><strong>个人验证 → 能否帮助更多人？</strong></div>
-        <div><span>Book 5 → 6</span><strong>方法复制 → 最终回到主动创造未来的自己</strong></div>
-      </section>
+      <aside class="right-sidebar">
+        <p class="eyebrow">PROJECT OVERVIEW</p>
+        <h2>MyLifeOS Six Books — Master Map</h2>
+        <p class="overview-sub">六本书 · 一条连续的生命成长之路</p>
+
+        <section class="info-card">
+          <dl>
+            <div><dt>Node Type</dt><dd>Master Overview</dd></div>
+            <div><dt>Owner</dt><dd>Charles Soon Jin Wei</dd></div>
+            <div><dt>System</dt><dd>MyLifeOS Six Books</dd></div>
+            <div><dt>Version</dt><dd>V1.0</dd></div>
+            <div><dt>Status</dt><dd>Active — Evolving</dd></div>
+            <div><dt>Current Scope</dt><dd>Book 1 + Book 2</dd></div>
+          </dl>
+          <p>展示六本书的内在连续性、每章重点与跨书关联。Book 3–6 暂时只保留承接位置。</p>
+        </section>
+
+        <section class="continuity-card">
+          <h3>六书的顺序与主线</h3>
+          <p class="sequence">Origin → Who Am I? → Birth of Life OS → Living With MyLifeOS → Beyond Myself Growth → Creating My Future Self</p>
+          <p>从看见人生，到看见自己；从建立系统，到活进现实；从个人验证，到走向他人，最后回到主动创造未来的自己。</p>
+        </section>
+
+        <section class="active-books-card">
+          <h3>目前已建立</h3>
+          <a href="index.html"><span>01</span><b>Origin</b><small>14 nodes ↗</small></a>
+          <a href="book2.html"><span>02</span><b>Who Am I?</b><small>12 nodes ↗</small></a>
+        </section>
+
+        <blockquote>
+          记录当下 · 理解自己 · 设计人生<br />
+          持续进化 · 创造更好的未来
+          <small>— MyLifeOS —</small>
+        </blockquote>
+      </aside>
     </main>
   </div>
+
   <script src="six-books.js"></script>
 </body>
 </html>
