@@ -123,6 +123,7 @@ const en=zh.map((c,i)=>[i===0?'Prologue':i===11?'Epilogue':`Chapter ${i}`,[
 const ms=zh.map((c,i)=>[i===0?'Prolog':i===11?'Epilog':`Bab ${i}`,[
 'Adakah Anda Tahu Siapa Diri Anda?','Label Bukan Diri Saya','Manusia yang Bergerak Secara Semula Jadi','Manusia yang Mengurus Diri','Manusia yang Diperkasa Alat','Manusia yang Memiliki Sistem','Manusia yang Memiliki Arah','Perubahan Kecil Setiap Hari','Bagaimana Tabiat Membentuk Identiti','Siapakah Saya Sedang Menjadi?','My Life OS','Menjadi Diri Sendiri'
 ][i],c[2],c[3]]);
+zh[9][3] += "\n\n" + "Learning to Love My Own Life｜学习珍惜自己的人生\n\n很长一段时间，我没有认真想过爱自己这件事。\n\n我只是在做，不断地做。\n\n有事情要处理，有责任要承担，也有想完成的东西。做完一件，再往下一件走。努力让我把生活一步一步建立起来，却未必让我停下来问：那个正在过这一生的人，过得怎样？\n\nI spent years building a life. I never realized I also needed to love the person living it.\n\n我花了很多时间建立自己的生活，后来才意识到，我也需要珍惜那个生活在其中的人。\n\n起初，我以为 MyLifeOS 是为了管理人生。把事情留下来，把资料整理好，把还没做完的事接着完成。\n\n后来，我开始从另一个角度理解它。\n\n当我愿意记录一天，就不只是问今天完成了多少。我也有机会看见自己的感受、在意的事情，以及那些没有变成成果，却仍然值得留下的普通片段。\n\n回顾让我有机会听见自己。累的时候，我究竟需要什么？感到满意的时候，是什么让我觉得这一天值得？一直想继续做的事情，又为什么对我重要？\n\nI thought MyLifeOS was created to manage my life. Later, I realized it was also an act of loving my own life.\n\n我原以为 MyLifeOS 是为了管理生活。后来才发现，它也可以是我珍惜自己人生的一种行动。\n\n爱自己，在这里还不是一个已经完成的答案。我正在学习，不只在自己做得好的时候认可自己，也在疲倦、犹豫或需要调整的时候，愿意理解自己。\n\n努力的我值得看见，想享受生活的我也值得看见。学习的我可以继续向前，而不必先否定今天这个还没有把一切弄明白的人。\n\n这让我对“我是谁”有了一个新的回答：我是一个愿意认真生活，也正在学习善待自己的人。\n\n我不需要用记录多少来证明爱自己。有些时候，珍惜生活就是把工具放下，去休息，去陪伴，去经历当下。记录与回顾的价值，是帮助我记住这些需要，而不是再增加一个必须完成的要求。\n\n未来的我，仍然可以希望更有能力、更有成果。但我也希望，那是一个越来越懂得珍惜自己人生的人。";
 const chapterContent={zh,en,ms};
 
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -171,3 +172,4 @@ function toggleNarration(){
 }
 $('#listenChapterBtn').addEventListener('click',toggleNarration);
 window.addEventListener('mylife:reader-close',stopNarration);
+

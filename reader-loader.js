@@ -19,7 +19,7 @@
     'chapter8.js', 'chapter9-end.js', 'translation01.js',
     'translation234.js', 'translation567.js', 'translation8.js',
     'translation910.js', 'translation11end.js',
-    'editorial-v2-zh.js', 'editorial-v2-en.js', 'editorial-v2-ms.js',
+    'editorial-v2-zh.js?v=self-love-20261001', 'editorial-v2-en.js', 'editorial-v2-ms.js',
     'continuous-reader.js', 'chapter-format.js'
   ];
   let index = 0;
@@ -71,3 +71,4 @@
   retry.addEventListener('click', loadNext);
   loadNext();
 })();
+
