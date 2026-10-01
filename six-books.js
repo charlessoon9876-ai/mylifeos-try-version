@@ -1,273 +1,41 @@
+const SERIES_DATA=[{"id": "b1", "number": 1, "title": "Origin", "short": "Origin", "cn": "起点 · 原点", "url": "index.html", "question": "我为什么开始记录自己的人生", "summary": "从真实经历与零散资料开始，发现记录、回顾和理解生活的价值。", "chapters": [{"title": "序章 为什么我开始记录自己的人生", "summary": "我不是为了写书才开始记录；我只是越来越不想让真实生活发生以后，就这样消失。", "id": "B1-00", "url": "index.html#chapters", "number": 0, "label": "序章", "keywords": "珍惜自己的人生 爱自己 self-love loving my own life"}, {"title": "第一章 Charles 是谁？", "summary": "在谈系统以前，先认识这个会不断观察、解决问题、又不断重新寻找方法的人。", "id": "B1-01", "url": "index.html#chapters", "number": 1, "label": "第1章"}, {"title": "第二章 系统出现之前的人生", "summary": "那时并不是没有工具，而是每一种工具都只保存了人生的一部分。", "id": "B1-02", "url": "index.html#chapters", "number": 2, "label": "第2章"}, {"title": "第三章 我第一次遇见 ChatGPT", "summary": "AI 最初只是一个更方便的工具；真正的转折，是它第一次把我说得很乱的东西整理清楚。", "id": "B1-03", "url": "index.html#chapters", "number": 3, "label": "第3章"}, {"title": "第四章 从两个 GPT 到一个完整的我", "summary": "我曾经把工作和生活分成两个 GPT，最后却发现：现实中的 Charles 只有一个。", "id": "B1-04", "url": "index.html#chapters", "number": 4, "label": "第4章"}, {"title": "第五章 我开始记录自己的人生", "summary": "Daily Log 不是写日记，而是让真实生活在发生的时候留下最小可用记录。", "id": "B1-05", "url": "index.html#chapters", "number": 5, "label": "第5章"}, {"title": "第六章 记录开始变成复盘", "summary": "事实只有被重新看见，才会变成理解；Review 是记录开始产生价值的地方。", "id": "B1-06", "url": "index.html#chapters", "number": 6, "label": "第6章"}, {"title": "第七章 我第一次看见人生的规律", "summary": "当相同条件反复带来相似结果，零散生活开始显出模式。", "id": "B1-07", "url": "index.html#chapters", "number": 7, "label": "第7章"}, {"title": "第八章 我开始寻找人生的完整答案", "summary": "当自己的模式开始变清楚，我不再只想解决单一问题，而开始寻找能够容纳完整人生的方法。", "id": "B1-08", "url": "index.html#chapters", "number": 8, "label": "第8章"}, {"title": "第九章 为什么每一本书都只解释了一部分人生？", "summary": "不是经典不完整，而是每一种思想都有自己的视角和适用范围。", "id": "B1-09", "url": "index.html#chapters", "number": 9, "label": "第9章"}, {"title": "第十章 六大人生领域出现了", "summary": "六大领域不是六个抽屉，而是我第一次能够在同一张地图上看完整人生。", "id": "B1-10", "url": "index.html#chapters", "number": 10, "label": "第10章"}, {"title": "第十一章 My Life OS 开始成形", "summary": "当记录、复盘、模式和决定被连接起来，系统终于不只是分类，而开始产生反馈。", "id": "B1-11", "url": "index.html#chapters", "number": 11, "label": "第11章"}, {"title": "第十二章 从我的人生，走向一个可以复制的系统", "summary": "真正可以复制的不是 Charles 的答案，而是记录、理解和持续调整自己的过程。", "id": "B1-12", "url": "index.html#chapters", "number": 12, "label": "第12章"}, {"title": "尾声 Origin 不是结束，而是开始", "summary": "Origin 留下的不是最终答案，而是一条可以继续被验证、修正和升级的起点。", "id": "B1-13", "url": "index.html#chapters", "number": 13, "label": "尾声"}]}, {"id": "b2", "number": 2, "title": "Who Am I?", "short": "Who Am I?", "cn": "认识自己 · 珍惜人生", "url": "book2.html", "question": "我是谁，也怎样对待自己", "summary": "从角色、习惯与选择认识自己，并学习珍惜那个努力生活的人。", "chapters": [{"title": "序章 你知道你是谁吗？", "summary": "除了自我介绍，我真的了解自己吗？", "id": "B2-00", "url": "book2.html#chapters", "number": 0, "label": "序章"}, {"title": "第一章 标签不是我", "summary": "除了工作、年龄与身份，我还是什么样的人？", "id": "B2-01", "url": "book2.html#chapters", "number": 1, "label": "第1章"}, {"title": "第二章 自然推进的人", "summary": "当我没有主动选择时，是什么在决定我的生活？", "id": "B2-02", "url": "book2.html#chapters", "number": 2, "label": "第2章"}, {"title": "第三章 自我管理的人", "summary": "我可以从哪些选择开始，对自己的人生负责？", "id": "B2-03", "url": "book2.html#chapters", "number": 3, "label": "第3章"}, {"title": "第四章 工具增强的人", "summary": "日历、笔记、AI 与 Apps 如何支持我的行动？", "id": "B2-04", "url": "book2.html#chapters", "number": 4, "label": "第4章"}, {"title": "第五章 拥有系统的人", "summary": "如何把零散工具连接成持续运作的机制？", "id": "B2-05", "url": "book2.html#chapters", "number": 5, "label": "第5章"}, {"title": "第六章 拥有方向的人", "summary": "我想成为谁，又如何知道自己正在靠近？", "id": "B2-06", "url": "book2.html#chapters", "number": 6, "label": "第6章"}, {"title": "第七章 每日微小改变", "summary": "今天的小行动，如何随着时间累积？", "id": "B2-07", "url": "book2.html#chapters", "number": 7, "label": "第7章"}, {"title": "第八章 习惯如何形成身份", "summary": "我重复的行为，如何影响我对自己的认识？", "id": "B2-08", "url": "book2.html#chapters", "number": 8, "label": "第8章"}, {"title": "第九章 我正在成为谁？", "summary": "我现在的生活，正在带我走向怎样的未来？", "id": "B2-09", "url": "book2.html#chapters", "number": 9, "label": "第9章", "keywords": "珍惜自己的人生 爱自己 self-love loving my own life"}, {"title": "第十章 My Life OS", "summary": "如何用一套系统，支持自己持续行动与修正？", "id": "B2-10", "url": "book2.html#chapters", "number": 10, "label": "第10章"}, {"title": "尾声 Become｜成为自己", "summary": "带着新的认识，我今天如何继续生活？", "id": "B2-11", "url": "book2.html#chapters", "number": 11, "label": "尾声"}]}, {"id": "b3", "number": 3, "title": "The Birth of MyLifeOS", "short": "Birth of MyLifeOS", "cn": "建立记录与复盘方法", "url": "book3.html", "question": "怎样建立能够持续的方法", "summary": "建立入口、记录与核对，再进入每日、每周、每月及 YTD 回顾。", "chapters": [{"title": "序章 给认识自己一个可以继续的方法", "summary": "第一本，我讲自己为什么开始记录。第二本，我从记录里继续认识自己。第三本把这种认识变成可以持续使用的方法。", "id": "B3-00", "url": "book3.html#read-0", "number": 0, "label": "序章"}, {"title": "第一章 What Is MyLifeOS 理解这套系统", "summary": "MyLifeOS 是我整理个人生活的一套方法，把健康、财富、家庭、事业、学习和日常生活连接起来，持续回看。", "id": "B3-01", "url": "book3.html#read-1", "number": 1, "label": "第1章"}, {"title": "第二章 Setup Your ChatGPT 建立背景与入口", "summary": "开始时，我先说明希望怎样被称呼、正在关注什么、承担哪些角色，以及希望记录帮助解决的问题。", "id": "B3-02", "url": "book3.html#read-2", "number": 2, "label": "第2章"}, {"title": "第三章 Daily Log System 用五个时段留下一天", "summary": "一天的内容不一定一次写完。我可以在事情发生后，留下一句话、一段语音或一张图片，晚上再整理。", "id": "B3-03", "url": "book3.html#read-3", "number": 3, "label": "第3章"}, {"title": "第四章 Organize 整理以后还要核对", "summary": "GPT 可以把零散输入按时段排列，让原本分散的材料变得容易阅读。这个步骤很有帮助，但整齐不等于准确。", "id": "B3-04", "url": "book3.html#read-4", "number": 4, "label": "第4章"}, {"title": "第五章 6 Life Areas 看见生活的不同部分", "summary": "总览使用六个领域：Health OS 健康、Finance OS 财富、Family OS 家庭、Career OS 事业、Learning OS 学习成长，以及 Personal Life OS 个人生活。", "id": "B3-05", "url": "book3.html#read-5", "number": 5, "label": "第5章"}, {"title": "第六章 Daily Review 看清今天的选择", "summary": "Daily Summary 把一天整理清楚，Daily Review 再问：今天哪些事情值得理解，哪些需要跟进？", "id": "B3-06", "url": "book3.html#read-6", "number": 6, "label": "第6章", "keywords": "珍惜自己的人生 爱自己 self-love loving my own life"}, {"title": "第七章 Weekly Review 把几天连接起来", "summary": "一天里看不清的问题，放到一周可能出现联系。周回顾的重点，是从记录中选出值得继续观察的事情，再决定下一周怎样做。", "id": "B3-07", "url": "book3.html#read-7", "number": 7, "label": "第7章"}, {"title": "第八章 Monthly 与 YTD 拉远距离看方向", "summary": "当几周的内容放在一起，我开始问更长一点的问题：哪些变化正在持续？哪些问题只是在反复处理？下个月该把精力放在哪里？", "id": "B3-08", "url": "book3.html#read-8", "number": 8, "label": "第8章"}, {"title": "第九章 Understand 与 Improve 把回顾变成行动", "summary": "从每日到 YTD，时间越来越长，最后仍然要回到可以行动的地方。", "id": "B3-09", "url": "book3.html#read-9", "number": 9, "label": "第9章"}, {"title": "第十章 7-Day Starter 完成第一次循环", "summary": "总览的七天计划，是一个可以开始的顺序。它不要求每个人以同样速度得到相同结果。", "id": "B3-10", "url": "book3.html#read-10", "number": 10, "label": "第10章"}, {"title": "尾声 从留下来 到用起来", "summary": "最早，我不想让发生过的生活就这样消失。后来，我开始发现，留下来的材料还可以帮助我作出新的判断。", "id": "B3-11", "url": "book3.html#read-11", "number": 11, "label": "尾声"}]}, {"id": "b4", "number": 4, "title": "Living With MyLifeOS", "short": "Living With MyLifeOS", "cn": "让系统进入真实生活", "url": "book4.html", "question": "方法怎样影响生活与选择", "summary": "通过系统、清晰、六大领域与成果，理解方法怎样进入行动，保留 Life First, System Second。", "chapters": [{"title": "序章 为什么还需要一种新的生活方式", "summary": "一个人已经活了几十年，为什么还需要 Life OS？", "id": "B4-00", "url": "book4.html#read-0", "number": 0, "label": "序章"}, {"title": "第一章 Life Without a System｜忙碌之中，什么散开了", "summary": "没有系统，未必意味着没有安排。日历、聊天、笔记和多年养成的习惯，都可能帮助一个人把日子过好。", "id": "B4-01", "url": "book4.html#read-1", "number": 1, "label": "第1章"}, {"title": "第二章 From Reaction to Choice｜在反应之间，留出选择", "summary": "当人生缺少系统时，我们更容易对眼前发生的事情作出反应；当人生有了系统，我们就多了一层观察、复盘与选择的空间。", "id": "B4-02", "url": "book4.html#read-2", "number": 2, "label": "第2章"}, {"title": "第三章 Building Clarity｜把说不清楚的事情，慢慢说清楚", "summary": "记录留下材料，整理给材料位置，理解找出联系，表达则帮助我检查自己是不是真的想明白了。", "id": "B4-03", "url": "book4.html#read-3", "number": 3, "label": "第3章"}, {"title": "第四章 The Six Domains｜把整个人放回同一张图", "summary": "我可以很认真地完成工作，却仍然需要问：身体有没有得到恢复？关系有没有得到注意？学习有没有进入实际使用？自己还有没有选择时间的空间？", "id": "B4-04", "url": "book4.html#read-4", "number": 4, "label": "第4章"}, {"title": "第五章 Seeing Patterns and Imbalance｜看见变化，也看见代价", "summary": "一天忙于工作，未必代表生活失衡。某个时期需要照顾家人，也可能让其他安排暂时退后。只看一张图，很容易把必要的取舍误读成长期的问题。", "id": "B4-05", "url": "book4.html#read-5", "number": 5, "label": "第5章"}, {"title": "第六章 Review Becomes Direction｜复盘怎样影响下一步", "summary": "一份回顾写得完整，还不代表它已经帮助生活。它需要回到一个具体选择里。", "id": "B4-06", "url": "book4.html#read-6", "number": 6, "label": "第6章"}, {"title": "第七章 Life Data Becomes Output｜留下的资料，可以变成什么", "summary": "一段记录最初可能只为保存当时的事情。后来，当它与其他资料放在一起，就可能成为一份说明、一张检查表、一段故事，或者一件作品的材料。", "id": "B4-07", "url": "book4.html#read-7", "number": 7, "label": "第7章"}, {"title": "第八章 Career, Family, Knowledge and Creation｜不同成果，服务不同的人", "summary": "工作中的经验，可以尝试整理成检查表；学习中的理解，可以写成以后找得到的笔记；家人的片段，可以在合适的分享范围内成为共同回忆。", "id": "B4-08", "url": "book4.html#read-8", "number": 8, "label": "第8章"}, {"title": "第九章 My Daily Thinking Partner｜AI 与 Charles，怎样一起思考", "summary": "我负责经历生活、补充情境和作决定。AI 可以帮助整理文字、比较材料、提出问题，也可以把想法变成一份可以修改的草稿。", "id": "B4-09", "url": "book4.html#read-9", "number": 9, "label": "第9章"}, {"title": "第十章 From Memory to Decision Support｜让过去帮助判断", "summary": "记忆常常留下最强烈的部分。记录则给我另一个机会，找回当时的条件、已经尝试的方法，以及后来发生的事。", "id": "B4-10", "url": "book4.html#read-10", "number": 10, "label": "第10章"}, {"title": "第十一章 From Action to Change｜改变，需要回到生活里确认", "summary": "理解之后，还要试一次。试过之后，还要看看发生了什么。", "id": "B4-11", "url": "book4.html#read-11", "number": 11, "label": "第11章"}, {"title": "第十二章 Life First, System Second｜生活在前，系统在后", "summary": "系统建立以后，最容易忘记的，可能就是最初为什么建立它。", "id": "B4-12", "url": "book4.html#read-12", "number": 12, "label": "第12章", "keywords": "珍惜自己的人生 爱自己 self-love loving my own life"}, {"title": "尾声 从有一个系统，到拥有选择的空间", "summary": "回到最初的问题：活了几十年，为什么还需要 Life OS？", "id": "B4-13", "url": "book4.html#read-13", "number": 13, "label": "尾声"}]}, {"id": "b5", "number": 5, "title": "Beyond Myself — MyLifeOS Academy", "short": "MyLifeOS Academy", "cn": "从个人实践到共同成长", "url": "book5.html", "question": "怎样把经验变成学习路径", "summary": "ASSESS → POSITION → REVIEW → GROW → INTEGRATE；用生活模式与 Growth Ladder 练习、检查和分享。", "chapters": [{"title": "序章 Beyond Myself，从哪里开始", "summary": "这张图是全书地图。先看上方的现状、模式与路线，再看中间从认识自己到持续升级的循环。书里会一步一步拆开，不要求读者一次掌握所有模块。", "id": "B5-00", "url": "book5.html#read-0", "number": 0, "label": "序章"}, {"title": "第一章 ASSESS｜先看见现在，不急着升级", "summary": "成长很容易从一个比较开始：别人已经做到哪里，我为什么还没有？", "id": "B5-01", "url": "book5.html#read-1", "number": 1, "label": "第1章"}, {"title": "第二章 Learning Priority｜找到眼前最值得练的一件事", "summary": "一张生活地图可能同时显出很多需要改善的地方。但学习不必同时覆盖所有领域。", "id": "B5-02", "url": "book5.html#read-2", "number": 2, "label": "第2章"}, {"title": "第三章 POSITION｜五大人生模式，看见处境与选择", "summary": "五大人生模式，从生存、安全、选择、自由，延伸到财务自由。它描述的是一种观察生活压力与选择空间的方法。", "id": "B5-03", "url": "book5.html#read-3", "number": 3, "label": "第3章"}, {"title": "第四章 Two Maps｜我在哪里，与我会什么，是两张地图", "summary": "五大人生模式回答“我处在怎样的生活条件里”。Growth Ladder 则回答“我已经能怎样使用记录、复盘和行动”。", "id": "B5-04", "url": "book5.html#read-4", "number": 4, "label": "第4章"}, {"title": "第五章 REVIEW｜让成长有可以回看的依据", "summary": "学习开始以后，我怎样知道自己不是只觉得有进步？", "id": "B5-05", "url": "book5.html#read-5", "number": 5, "label": "第5章"}, {"title": "第六章 Review Into Practice｜每次回顾，选择一个练习", "summary": "回顾提出了发现，练习才让发现进入生活。", "id": "B5-06", "url": "book5.html#read-6", "number": 6, "label": "第6章"}, {"title": "第七章 Growth Ladder｜给能力一个共同的语言", "summary": "Growth Ladder 把方法能力分成六个观察阶段：Bronze Starter、Silver Recorder、Gold Reviewer、Platinum Builder、Diamond Optimizer、Master Integrator。", "id": "B5-07", "url": "book5.html#read-7", "number": 7, "label": "第7章"}, {"title": "第八章 Bronze to Gold｜从愿意留下，到能够回看", "summary": "Bronze Starter，是开始接触这套方法的人。记录未必稳定，也可能还不确定要留下什么。眼前的练习，是选一件真实发生的事，留下日期和必要情境。", "id": "B5-08", "url": "book5.html#read-8", "number": 8, "label": "第8章"}, {"title": "第九章 Platinum Builder｜让理解变成可重复的方法", "summary": "Platinum Builder，开始把回顾中的发现带进行动。某种做法经过尝试以后，逐渐成为习惯、检查表或可以重复使用的流程。", "id": "B5-09", "url": "book5.html#read-9", "number": 9, "label": "第9章"}, {"title": "第十章 Diamond Optimizer｜改善效果，也减少代价", "summary": "Diamond Optimizer，开始检查已经运行的方法是否值得继续用。", "id": "B5-10", "url": "book5.html#read-10", "number": 10, "label": "第10章"}, {"title": "第十一章 Master Integrator｜整合，不是永远完美", "summary": "Master Integrator 所指向的，是能够把几种能力放在一起使用：观察现状，辨认联系，选择行动，回看结果，并在条件变化时重新安排。", "id": "B5-11", "url": "book5.html#read-11", "number": 11, "label": "第11章", "keywords": "珍惜自己的人生 爱自己 self-love loving my own life"}, {"title": "第十二章 MyLifeOS Academy｜让别人也能走一遍", "summary": "Academy 的起点，可以很小：一个真实问题，一次示范，一个练习，一份回顾，再加一次根据反馈作出的修改。", "id": "B5-12", "url": "book5.html#read-12", "number": 12, "label": "第12章"}, {"title": "尾声 成长以后，我想把能力用在哪里", "summary": "全景图把过程放在一起，雷达帮助观察，五大模式帮助定位，层级路线把愿望落到生活体验，Growth Ladder 再说明需要练习哪些能力。", "id": "B5-13", "url": "book5.html#read-13", "number": 13, "label": "尾声"}]}, {"id": "b6", "number": 6, "title": "Creating My Future Self", "short": "Creating My Future Self", "cn": "主动创造未来的自己", "url": "book6.html", "question": "接下来，我要成为怎样的人", "summary": "从 Discovery 延伸到 Create，把理解转化为愿景、选择、尝试与行动，回顾并修正未来方向。", "chapters": [{"title": "序章 系统可以被发现，未来由我参与创造", "summary": "我没有创造 MyLifeOS。", "id": "B6-00", "url": "book6.html#read-0", "number": 0, "label": "序章"}, {"title": "第一章 Discovery｜我怎样走到这里", "summary": "这张图记录了四种角色：Discoverer，发现者；Practitioner，实践者；System Builder，系统整理者；Coach，引导别人学习的人。", "id": "B6-01", "url": "book6.html#read-1", "number": 1, "label": "第1章"}, {"title": "第二章 Create｜未来自我创造者", "summary": "Discover → Practice → Build → Guide → Create。", "id": "B6-02", "url": "book6.html#read-2", "number": 2, "label": "第2章"}, {"title": "第三章 从今天的位置出发", "summary": "想象未来以前，我需要先看清起点。", "id": "B6-03", "url": "book6.html#read-3", "number": 3, "label": "第3章"}, {"title": "第四章 我希望保留怎样的生活", "summary": "谈未来，很容易先想到还缺什么。可是有些重要的东西，我希望未来仍然保留。", "id": "B6-04", "url": "book6.html#read-4", "number": 4, "label": "第4章", "keywords": "珍惜自己的人生 爱自己 self-love loving my own life"}, {"title": "第五章 从愿景走到一个选择", "summary": "愿景给方向，目标帮助聚焦，行动让它有机会发生。", "id": "B6-05", "url": "book6.html#read-5", "number": 5, "label": "第5章"}, {"title": "第六章 先做一个能够学习的尝试", "summary": "想得清楚以后，我仍然需要通过行动了解这个方向。", "id": "B6-06", "url": "book6.html#read-6", "number": 6, "label": "第6章"}, {"title": "第七章 给未来真实的位置", "summary": "一个方向如果始终只存在于笔记里，很容易被眼前的事情推迟。", "id": "B6-07", "url": "book6.html#read-7", "number": 7, "label": "第7章"}, {"title": "第八章 让回顾保留重新选择的权利", "summary": "我现在选择的方向，不必变成以后永远不能修改的承诺。", "id": "B6-08", "url": "book6.html#read-8", "number": 8, "label": "第8章"}, {"title": "第九章 我希望留下什么", "summary": "未来不只关乎自己获得什么，也关乎我希望留下什么。", "id": "B6-09", "url": "book6.html#read-9", "number": 9, "label": "第9章"}, {"title": "第十章 回到今天，成为下一步的自己", "summary": "Discover，让我看见来处。", "id": "B6-10", "url": "book6.html#read-10", "number": 10, "label": "第10章"}, {"title": "尾声 下一条记录", "summary": "第一本，我不想让发生过的生活就这样消失。", "id": "B6-11", "url": "book6.html#read-11", "number": 11, "label": "尾声"}]}];
 (() => {
-  const svg = document.getElementById('sixBookGraph');
-  const viewport = document.getElementById('graphViewport');
-  const searchInput = document.getElementById('graphSearch');
-  const resetBtn = document.getElementById('resetGraph');
-  const zoomInBtn = document.getElementById('zoomIn');
-  const zoomOutBtn = document.getElementById('zoomOut');
-  const viewLabel = document.getElementById('viewLabel');
-  const filterButtons = [...document.querySelectorAll('[data-filter]')];
-  const NS = 'http://www.w3.org/2000/svg';
-
-  const palette = {
-    core:'#6f9ef4', b1:'#f3b65e', b2:'#4fd9ee', b3:'#a46cff',
-    b4:'#62d89f', b5:'#f36f91', b6:'#4d9cf5'
-  };
-
-  const book1 = [
-    ['B1-00','Record','Evidence · Memory'],
-    ['B1-01','Charles','Identity · Observer'],
-    ['B1-02','Fragmentation','No Master Map'],
-    ['B1-03','AI → Mirror','Tool → Mirror'],
-    ['B1-04','One Charles','Integration'],
-    ['B1-05','Daily Log','Raw Data'],
-    ['B1-06','Review','Daily · Weekly · Monthly'],
-    ['B1-07','Pattern','Recognition'],
-    ['B1-08','Knowledge','Philosophy · Structure'],
-    ['B1-09','Perspectives','Personal Map'],
-    ['B1-10','Six Domains','Whole Life Map'],
-    ['B1-11','Feedback Loop','Data → Action'],
-    ['B1-12','Replication','Charles 1.0 → Others'],
-    ['B1-13','Origin → Future','Past · Present · Future']
-  ];
-
-  const book2 = [
-    ['B2-00','Identity Question','Self Observation'],
-    ['B2-01','Labels ≠ Me','Values · Traits'],
-    ['B2-02','Auto-Pilot','Environment · Habit'],
-    ['B2-03','Choice','Responsibility · Attention'],
-    ['B2-04','Tool Augmentation','Apps · AI'],
-    ['B2-05','System','Raw Data → Action'],
-    ['B2-06','Direction','Goals vs Direction'],
-    ['B2-07','Small Change','Compounding'],
-    ['B2-08','Habit → Identity','Action → Evidence'],
-    ['B2-09','Future Trajectory','Who am I becoming?'],
-    ['B2-10','MyLifeOS','V1 → V2 → V3'],
-    ['B2-11','Become','See → Choose → Act']
-  ];
-
-  const books = {
-    core:{id:'core',book:'core',x:620,y:425,r:76,title:'MyLifeOS',sub:'· 6 Books ·',cn:'记录 · 认知 · 行动 · 成长',color:palette.core},
-    b1:{id:'b1',book:'b1',x:380,y:245,r:55,title:'01 Origin',sub:'起点 · 原点',cn:'Origin Layer',color:palette.b1},
-    b2:{id:'b2',book:'b2',x:860,y:245,r:55,title:'02 Who Am I?',sub:'我是谁？',cn:'Identity Layer',color:palette.b2},
-    b3:{id:'b3',book:'b3',x:1045,y:450,r:43,title:'03 Birth of',sub:'Life OS',cn:'PENDING',color:palette.b3,pending:true},
-    b4:{id:'b4',book:'b4',x:835,y:650,r:43,title:'04 Living With',sub:'MyLifeOS',cn:'PENDING',color:palette.b4,pending:true},
-    b5:{id:'b5',book:'b5',x:445,y:650,r:43,title:'05 Beyond',sub:'Myself Growth',cn:'PENDING',color:palette.b5,pending:true},
-    b6:{id:'b6',book:'b6',x:195,y:450,r:43,title:'06 Creating',sub:'My Future Self',cn:'PENDING',color:palette.b6,pending:true}
-  };
-
-  const nodes = [];
-  const edges = [];
-  const byId = new Map();
-  const nodeEls = new Map();
-  const edgeEls = [];
-
-  const addNode = n => { nodes.push(n); byId.set(n.id,n); };
-  const addEdge = (a,b,type='chapter',label='') => edges.push({a,b,type,label});
-
-  Object.values(books).forEach(addNode);
-
-  function placeRadial(list, bookId, cx, cy, radius, startDeg, endDeg, color, side){
-    list.forEach((item,i)=>{
-      const t = list.length === 1 ? .5 : i/(list.length-1);
-      const deg = startDeg + (endDeg-startDeg)*t;
-      const a = deg*Math.PI/180;
-      const x = cx + Math.cos(a)*radius;
-      const y = cy + Math.sin(a)*radius;
-      addNode({id:item[0],book:bookId,type:'chapter',x,y,r:7.2,label:item[1],key:item[2],color,side});
-      addEdge(bookId,item[0],'chapter');
-      if(i>0) addEdge(list[i-1][0],item[0],'chapter');
-    });
-  }
-
-  placeRadial(book1,'b1',books.b1.x,books.b1.y,145,112,248,palette.b1,'left');
-  placeRadial(book2,'b2',books.b2.x,books.b2.y,145,-68,68,palette.b2,'right');
-
-  // Core book structure.
-  ['b1','b2','b3','b4','b5','b6'].forEach(id=>addEdge('core',id,'core'));
-  addEdge('b1','b2','cross','Origin → Identity');
-  addEdge('b2','b3','cross','Identity → System');
-  addEdge('b3','b4','pending','System → Living');
-  addEdge('b4','b5','pending','Living → Beyond');
-  addEdge('b5','b6','pending','Beyond → Future');
-  addEdge('b6','b1','pending','Future ↔ Origin');
-
-  // Book 1 ↔ Book 2: real continuity.
-  addEdge('B1-01','B2-00','cross','Charles → Who Am I?');
-  addEdge('B1-04','B2-01','cross','One Charles → Identity');
-  addEdge('B1-07','B2-02','cross','Pattern → Auto-Pilot');
-  addEdge('B1-11','B2-05','cross','Feedback Loop → System');
-  addEdge('B1-13','B2-09','cross','Future Seed → Trajectory');
-
-  // Reserved cross-book bridge positions — no invented chapters for Books 3–6.
-  addEdge('B2-10','b3','cross','V1 · V2 · V3 → Birth');
-  addEdge('B1-10','b4','pending','Six Domains → Living');
-  addEdge('B1-12','b5','pending','Replication → Beyond');
-  addEdge('B2-09','b6','pending','Trajectory → Future Self');
-
-  function el(name,attrs={},text=''){
-    const e=document.createElementNS(NS,name);
-    Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
-    if(text) e.textContent=text;
-    return e;
-  }
-
-  function makeDefs(){
-    const defs=el('defs');
-    const filter=el('filter',{id:'glow',x:'-120%',y:'-120%',width:'340%',height:'340%'});
-    filter.appendChild(el('feGaussianBlur',{stdDeviation:'5',result:'coloredBlur'}));
-    const merge=el('feMerge');
-    merge.appendChild(el('feMergeNode',{in:'coloredBlur'}));
-    merge.appendChild(el('feMergeNode',{in:'SourceGraphic'}));
-    filter.appendChild(merge);
-    defs.appendChild(filter);
-    svg.appendChild(defs);
-  }
-
-  function pathFor(a,b,type){
-    if(type==='chapter') return `M ${a.x} ${a.y} L ${b.x} ${b.y}`;
-    const mx=(a.x+b.x)/2;
-    const lift=type==='core'?0:Math.min(65,Math.abs(b.x-a.x)*.10+25);
-    return `M ${a.x} ${a.y} Q ${mx} ${Math.min(a.y,b.y)-lift} ${b.x} ${b.y}`;
-  }
-
-  function drawEdge(edge,layer){
-    const a=byId.get(edge.a),b=byId.get(edge.b); if(!a||!b) return;
-    const p=el('path',{class:`graph-edge ${edge.type}`,d:pathFor(a,b,edge.type),'data-a':edge.a,'data-b':edge.b});
-    layer.appendChild(p);edgeEls.push(p);
-    if(edge.label && (edge.type==='cross' || edge.type==='pending')){
-      const mx=(a.x+b.x)/2;
-      const my=(a.y+b.y)/2-8;
-      const t=el('text',{class:'cross-caption',x:mx,y:my,'text-anchor':'middle'},edge.label);
-      t.dataset.a=edge.a;t.dataset.b=edge.b;layer.appendChild(t);
-    }
-  }
-
-  function textLine(g,cls,y,text){g.appendChild(el('text',{class:cls,x:0,y,'text-anchor':'middle'},text));}
-
-  function drawBookNode(n,layer){
-    const g=el('g',{class:`book-core ${n.pending?'pending-core':''}`,'data-id':n.id,transform:`translate(${n.x} ${n.y})`});
-    g.appendChild(el('circle',{class:'ring',r:n.r+9,stroke:n.color,'stroke-width':1.1}));
-    g.appendChild(el('circle',{r:n.r,fill:n.pending?'rgba(255,255,255,.025)':n.color,stroke:n.color,opacity:n.id==='core'?.94:.82}));
-    if(n.id==='core'){
-      textLine(g,'core-title',-6,n.title);
-      textLine(g,'core-title',15,n.sub);
-      textLine(g,'core-sub',35,n.cn);
-      g.classList.add('core-node');
-    }else{
-      textLine(g,'book-num',-9,n.title);
-      textLine(g,'book-title',7,n.sub);
-      textLine(g,'book-cn',24,n.cn);
-      if(n.pending) g.appendChild(el('text',{class:'pending-label',x:0,y:n.r+22},'CONTENT TO ADD LATER'));
-    }
-    g.addEventListener('click',e=>{e.stopPropagation();selectNode(n.id)});
-    layer.appendChild(g);nodeEls.set(n.id,g);
-  }
-
-  function drawChapterNode(n,layer){
-    const g=el('g',{class:'chapter-node','data-id':n.id,transform:`translate(${n.x} ${n.y})`});
-    g.appendChild(el('circle',{r:n.r,fill:n.color,opacity:.95}));
-    const left=n.side==='left';
-    const x=left?-13:13;
-    const anchor=left?'end':'start';
-    g.appendChild(el('text',{class:'chapter-id',x,y:-10,'text-anchor':anchor},n.id));
-    g.appendChild(el('text',{class:'chapter-label',x,y:1,'text-anchor':anchor},n.label));
-    g.appendChild(el('text',{class:'chapter-key',x,y:13,'text-anchor':anchor},n.key));
-    g.addEventListener('click',e=>{e.stopPropagation();selectNode(n.id)});
-    layer.appendChild(g);nodeEls.set(n.id,g);
-  }
-
-  function drawClusterLabels(layer){
-    layer.appendChild(el('text',{class:'cluster-label',x:278,y:62},'BOOK 01 · 14 CHAPTER KEY NODES'));
-    layer.appendChild(el('text',{class:'cluster-label',x:790,y:62},'BOOK 02 · 12 CHAPTER KEY NODES'));
-    layer.appendChild(el('text',{class:'cluster-label',x:925,y:790},'BOOK 03–06 · STRUCTURE RESERVED / PENDING'));
-  }
-
-  function render(){
-    svg.innerHTML='';edgeEls.length=0;nodeEls.clear();
-    makeDefs();
-    const edgeLayer=el('g',{id:'edgeLayer'});svg.appendChild(edgeLayer);
-    edges.forEach(e=>drawEdge(e,edgeLayer));
-    const nodeLayer=el('g',{id:'nodeLayer'});svg.appendChild(nodeLayer);
-    drawClusterLabels(nodeLayer);
-    Object.values(books).forEach(n=>drawBookNode(n,nodeLayer));
-    nodes.filter(n=>n.type==='chapter').forEach(n=>drawChapterNode(n,nodeLayer));
-  }
-
-  let selected='';
-  let activeFilter='all';
-
-  function relatedTo(id){
-    const set=new Set([id]);
-    edges.forEach(e=>{if(e.a===id)set.add(e.b);if(e.b===id)set.add(e.a)});
-    return set;
-  }
-
-  function applyVisibility(){
-    const keep = selected ? relatedTo(selected) : null;
-    nodeEls.forEach((g,id)=>{
-      const n=byId.get(id);
-      let dim=false;
-      if(activeFilter!=='all'){
-        const belongs=n.book===activeFilter || id===activeFilter || id==='core';
-        const cross=edges.some(e=>(e.a===id||e.b===id) && (e.a===activeFilter||e.b===activeFilter));
-        dim=!belongs && !cross;
-      }
-      if(keep && !keep.has(id)) dim=true;
-      g.classList.toggle('dim',dim);
-      g.classList.toggle('active',id===selected);
-    });
-    edgeEls.forEach(p=>{
-      const a=p.dataset.a,b=p.dataset.b;
-      let dim=false;
-      if(activeFilter!=='all'){
-        const na=byId.get(a),nb=byId.get(b);
-        dim=!(na?.book===activeFilter || nb?.book===activeFilter || a===activeFilter || b===activeFilter || a==='core' || b==='core');
-      }
-      if(selected) dim=!(a===selected||b===selected);
-      p.classList.toggle('dim',dim);
-      p.classList.toggle('active',selected && (a===selected||b===selected));
-    });
-  }
-
-  function selectNode(id){selected=selected===id?'':id;applyVisibility();}
-  svg.addEventListener('click',()=>{selected='';applyVisibility()});
-
-  filterButtons.forEach(btn=>btn.addEventListener('click',()=>{
-    activeFilter=btn.dataset.filter;
-    selected='';
-    filterButtons.forEach(b=>b.classList.toggle('active',b===btn));
-    const labels={all:'全部书籍',b1:'01 Origin',b2:'02 Who Am I?',b3:'03 Pending',b4:'04 Pending',b5:'05 Pending',b6:'06 Pending'};
-    viewLabel.textContent=labels[activeFilter]||'全部书籍';
-    applyVisibility();
-  }));
-
-  function applySearch(){
-    const q=searchInput.value.trim().toLowerCase();
-    nodeEls.forEach((g,id)=>{
-      g.classList.remove('search-hit');
-      if(!q)return;
-      const n=byId.get(id);
-      const hay=[id,n?.title,n?.sub,n?.cn,n?.label,n?.key].filter(Boolean).join(' ').toLowerCase();
-      if(hay.includes(q))g.classList.add('search-hit');
-    });
-  }
-  searchInput.addEventListener('input',applySearch);
-  document.addEventListener('keydown',e=>{
-    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();searchInput.focus();}
-  });
-
-  let scale=1,tx=0,ty=0,dragging=false,lastX=0,lastY=0;
-  function applyTransform(){svg.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
-  function reset(){scale=1;tx=0;ty=0;applyTransform();selected='';activeFilter='all';filterButtons.forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));viewLabel.textContent='全部书籍';applyVisibility();}
-  function zoom(factor){scale=Math.max(.62,Math.min(2.2,scale*factor));applyTransform();}
-  resetBtn.addEventListener('click',reset);zoomInBtn.addEventListener('click',()=>zoom(1.12));zoomOutBtn.addEventListener('click',()=>zoom(.89));
-  viewport.addEventListener('pointerdown',e=>{dragging=true;viewport.classList.add('dragging');lastX=e.clientX;lastY=e.clientY;viewport.setPointerCapture(e.pointerId)});
-  viewport.addEventListener('pointermove',e=>{if(!dragging)return;tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;applyTransform()});
-  viewport.addEventListener('pointerup',()=>{dragging=false;viewport.classList.remove('dragging')});
-  viewport.addEventListener('pointercancel',()=>{dragging=false;viewport.classList.remove('dragging')});
-  viewport.addEventListener('wheel',e=>{e.preventDefault();const old=scale;scale=Math.max(.62,Math.min(2.2,scale*(e.deltaY>0?.92:1.08)));const r=viewport.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;tx=mx-(mx-tx)*(scale/old);ty=my-(my-ty)*(scale/old);applyTransform()},{passive:false});
-
-  render();
-  applyVisibility();
+'use strict';
+const svg=document.getElementById('sixBookGraph'),viewport=document.getElementById('graphViewport'),search=document.getElementById('graphSearch'),view=document.getElementById('viewLabel'),panel=document.getElementById('selectionPanel'),results=document.getElementById('searchResults');
+const buttons=Array.from(document.querySelectorAll('[data-filter]'));const colors=['#f3b65e','#4fd9ee','#a46cff','#62d89f','#f36f91','#4d9cf5'];const NS='http://www.w3.org/2000/svg';let filter='all',selected='',scale=1,tx=0,ty=0,drag=null;
+const byBook=new Map(SERIES_DATA.map(b=>[b.id,b]));const byChapter=new Map(SERIES_DATA.flatMap(b=>b.chapters.map(c=>[c.id,{...c,book:b}])));
+const positions=[[350,185],[890,185],[1010,420],[860,640],[380,640],[230,420]];
+const previews=[[0,5,6,10],[0,1,8,9],[1,3,6,7],[2,3,4,12],[1,3,7,11],[1,2,4,10]];
+function node(tag,attrs={},text=''){const e=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))e.setAttribute(k,v);if(text)e.textContent=text;return e;}
+function line(a,b,type='chapter'){svg.appendChild(node('path',{class:'graph-edge '+type,d:`M ${a[0]} ${a[1]} L ${b[0]} ${b[1]}`}));}
+function trim(s,n=24){return s.length>n?s.slice(0,n-1)+'…':s;}
+function label(s){return s.replace(/^(序章|尾声|第[一二三四五六七八九十]+章)\s*/, '');}
+function clickable(g,action){g.setAttribute('tabindex','0');g.setAttribute('role','button');g.addEventListener('click',e=>{e.stopPropagation();action()});g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();action()}});}
+function bookNode(b,p,r=57){const color=colors[b.number-1],g=node('g',{class:'book-core'+(selected===b.id?' active':''),transform:`translate(${p[0]} ${p[1]})`,'aria-label':`${b.title}，${b.chapters.length}个阅读段落`});g.appendChild(node('circle',{class:'ring',r:r+9,stroke:color}));g.appendChild(node('circle',{r,fill:color,'fill-opacity':'.28',stroke:color}));g.appendChild(node('text',{class:'book-num',y:-12},'BOOK '+String(b.number).padStart(2,'0')));g.appendChild(node('text',{class:'book-title',y:7},trim(b.short,20)));g.appendChild(node('text',{class:'book-cn',y:25},b.chapters.length+' 阅读段落'));clickable(g,()=>chooseBook(b.id));svg.appendChild(g);}
+function chapterNode(c,b,p,left=false,compact=false){const g=node('g',{class:'chapter-node'+(selected===c.id?' active':''),transform:`translate(${p[0]} ${p[1]})`,'aria-label':c.title});g.appendChild(node('circle',{r:compact?7:9,fill:colors[b.number-1]}));const x=left?-16:16,anchor=left?'end':'start';g.appendChild(node('text',{class:'chapter-id',x,y:-11,'text-anchor':anchor},c.label));g.appendChild(node('text',{class:'chapter-label',x,y:7,'text-anchor':anchor},trim(label(c.title),compact?18:26)));g.appendChild(node('title',{},c.title));clickable(g,()=>showChapter(c.id));svg.appendChild(g);}
+function render(){svg.innerHTML='';svg.setAttribute('aria-label',filter==='all'?'六本书关系总图':byBook.get(filter).title+'完整章节');if(filter==='all'){
+ const core=[620,415];for(let i=0;i<6;i++){line(core,positions[i],'core');line(positions[i],positions[(i+1)%6],'cross');}
+ const g=node('g',{class:'book-core core-node',transform:'translate(620 415)'});g.appendChild(node('circle',{r:76,fill:'#173e71',stroke:'#78a9ff'}));for(const [y,t]of [[-13,'MyLifeOS'],[13,'6 Books'],[35,'78 阅读段落']])g.appendChild(node('text',{class:y===35?'core-sub':'core-title',y},t));clickable(g,()=>{selected='';overviewPanel();render()});svg.appendChild(g);
+ SERIES_DATA.forEach((b,i)=>{const p=positions[i],left=i===0||i===4||i===5;const pts=previews[i].map((j,k)=>({c:b.chapters[j],p:[p[0]+(left?-95:95),p[1]-85+k*46]}));pts.forEach(x=>line(p,x.p));bookNode(b,p);pts.forEach(x=>chapterNode(x.c,b,x.p,left,true));});
+}else{
+ const b=byBook.get(filter),center=[620,410],half=Math.ceil(b.chapters.length/2);const points=b.chapters.map((c,i)=>{const left=i<half,row=left?i:i-half;return {c,p:[left?420:820,130+row*85],left};});points.forEach(x=>line(center,x.p));bookNode(b,center,80);points.forEach(x=>chapterNode(x.c,b,x.p,x.left));
+ svg.appendChild(node('text',{class:'cluster-label',x:620,y:48,'text-anchor':'middle'},b.title+' · 完整章节'));
+ }highlightSearch();}
+function element(tag,text,cls){const e=document.createElement(tag);if(text)e.textContent=text;if(cls)e.className=cls;return e;}
+function link(text,url){const a=element('a',text,'read-link');a.href=url;return a;}
+function overviewPanel(){panel.replaceChildren(element('p','六本已公开 · 78 阅读段落','detail-kicker'),element('h3','选一本，继续这段旅程'),element('p','总图显示每本的代表章节。选择左侧书籍可展开该书全部章节；点选节点查看介绍，再打开阅读。'));}
+function bookPanel(b){panel.replaceChildren(element('p','BOOK '+b.number+' · '+b.chapters.length+' 阅读段落','detail-kicker'),element('h3',b.title),element('p',b.question),element('p',b.summary),link('打开整本阅读 ↗',b.url));if(b.number<3)panel.appendChild(element('p','Book 1、2 使用原版目录入口；打开后选择对应章节。','chapter-link-note'));const title=element('h4','全部章节','chapter-list-title');const list=element('ol');list.start=0;b.chapters.forEach(c=>{const li=element('li');const a=element('a',c.title);a.href=c.url;li.appendChild(a);list.appendChild(li)});panel.append(title,list);if(b.number<6)panel.appendChild(link('下一本：'+SERIES_DATA[b.number].short,SERIES_DATA[b.number].url));}
+function chooseBook(id){filter=id;selected=id;buttons.forEach(b=>b.classList.toggle('active',b.dataset.filter===id));view.textContent=byBook.get(id).short;resetTransform();render();bookPanel(byBook.get(id));}
+function showChapter(id){selected=id;const c=byChapter.get(id);render();panel.replaceChildren(element('p','BOOK '+c.book.number+' · '+c.label,'detail-kicker'),element('h3',c.title),element('p',c.summary),link('阅读这一章 ↗',c.url));if(c.book.number<3)panel.appendChild(element('p','打开该书目录后选择对应章节。','chapter-link-note'));const back=element('button','查看本书全部章节','detail-back');back.type='button';back.onclick=()=>chooseBook(c.book.id);panel.appendChild(back);}
+buttons.forEach(b=>b.addEventListener('click',()=>{if(b.dataset.filter==='all'){filter='all';selected='';buttons.forEach(x=>x.classList.toggle('active',x===b));view.textContent='全部书籍';resetTransform();overviewPanel();render()}else chooseBook(b.dataset.filter)}));
+function highlightSearch(){const q=search.value.trim().toLowerCase();if(!q)return;svg.querySelectorAll('.chapter-node,.book-core').forEach(g=>{if(g.getAttribute('aria-label')?.toLowerCase().includes(q))g.classList.add('search-hit')});}
+function applySearch(){const q=search.value.trim().toLowerCase();results.replaceChildren();results.hidden=!q;if(!q){render();return;}const hits=SERIES_DATA.flatMap(b=>b.chapters.filter(c=>(b.title+' '+c.title+' '+c.summary+' '+(c.keywords||'')).toLowerCase().includes(q)).map(c=>({...c,book:b})));results.appendChild(element('h3',hits.length?'找到 '+hits.length+' 个章节':'没有匹配章节，请尝试其他词。'));for(const c of hits){const a=element('a',c.title);a.href=c.url;a.appendChild(element('small','Book '+c.book.number+' · '+c.book.short));results.appendChild(a)}render();}
+search.addEventListener('input',applySearch);document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();search.focus()}if(e.key==='Escape'){search.value='';applySearch()}});
+function transform(){svg.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+function resetTransform(){scale=1;tx=0;ty=0;transform();}
+document.getElementById('resetGraph').onclick=()=>{search.value='';results.hidden=true;filter='all';selected='';buttons.forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));view.textContent='全部书籍';resetTransform();overviewPanel();render()};
+document.getElementById('zoomIn').onclick=()=>{scale=Math.min(2.5,scale*1.15);transform()};document.getElementById('zoomOut').onclick=()=>{scale=Math.max(.6,scale/1.15);transform()};
+viewport.addEventListener('pointerdown',e=>{if(e.target.closest('.book-core,.chapter-node,.graph-controls,.search-results'))return;drag={x:e.clientX,y:e.clientY};viewport.setPointerCapture(e.pointerId);viewport.classList.add('dragging')});viewport.addEventListener('pointermove',e=>{if(!drag)return;tx+=e.clientX-drag.x;ty+=e.clientY-drag.y;drag={x:e.clientX,y:e.clientY};transform()});for(const event of ['pointerup','pointercancel'])viewport.addEventListener(event,()=>{drag=null;viewport.classList.remove('dragging')});viewport.addEventListener('wheel',e=>{if(e.target.closest('.search-results'))return;e.preventDefault();scale=Math.max(.6,Math.min(2.5,scale*(e.deltaY<0?1.08:.92)));transform()},{passive:false});
+overviewPanel();render();
 })();
+
