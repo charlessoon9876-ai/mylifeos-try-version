@@ -1,8 +1,16 @@
 (() => {
-  const track = new Audio('mylife-origin-bgm.mp3.mp3');
+  const soundtracks = {
+    'book3.html': ['assets/book3-soundtrack.mp3', '从这里出发'],
+    'book4.html': ['assets/book4-soundtrack.mp3', '我们一起闯天涯'],
+    'book5.html': ['assets/book5-soundtrack.mp3', '借世界看自己'],
+    'book6.html': ['assets/book6-soundtrack.mp3', '不一樣的自己']
+  };
+  const page = location.pathname.split('/').pop().toLowerCase();
+  const [source, title] = soundtracks[page] || ['mylife-origin-bgm.mp3.mp3', 'My Life Origin'];
+  const track = new Audio(source);
   track.loop = true;
   track.volume = 0.30;
-  track.preload = 'auto';
+  track.preload = 'metadata';
 
   let userEnabled = true;
   let started = false;
@@ -19,6 +27,7 @@
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'bgm-toggle';
+  button.title = 'Soundtrack · ' + title;
   button.setAttribute('aria-label', 'Toggle background music');
   button.setAttribute('aria-pressed', 'true');
   button.textContent = '♫ Music On';
@@ -82,3 +91,4 @@
 
   updateButton();
 })();
+

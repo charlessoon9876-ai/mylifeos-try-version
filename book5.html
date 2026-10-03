@@ -36,5 +36,5 @@ $('speechRate').onchange=()=>{rate=Number($('speechRate').value);if(playing>=0){
 let scrollPending=false;function track(){scrollPending=false;const line=document.querySelector('.toolbar').getBoundingClientRect().bottom+30;let index=0;document.querySelectorAll('.reading-chapter').forEach((s,i)=>{if(s.getBoundingClientRect().top<=line)index=i});current=index;sync()}
 window.addEventListener('scroll',()=>{if(!scrollPending){scrollPending=true;requestAnimationFrame(track)}},{passive:true});window.addEventListener('pagehide',stop);setInterval(sync,500);sync();
 document.documentElement.classList.add('enhanced');grid();if(/^#read-\d+$/.test(location.hash))requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView());
-</script><script src="bgm.js"></script></body></html>
+</script><script src="bgm.js?v=soundtracks-20261003"></script></body></html>
 
